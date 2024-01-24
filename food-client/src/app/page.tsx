@@ -1,19 +1,18 @@
-import { Grid, Button, Typography } from "@mui/material";
-import "./globals.css";
+import { Grid, Stack } from "@mui/material";
+import Card from "@/components/Card/Card";
+import HomeHeader from "@/components/Home/HomeHeader";
+import OpenBox from "@/components/Header/ModalBox/modalBox";
+import { Header } from "@/components";
+import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
   return (
-    <main>
-      <Grid container className="container">
-        <Grid item xs={12} md={6} sx={{ background: "gray" }}>
-          <Typography variant="h1">Welcome Mui Framework</Typography>
-        </Grid>
-        <Grid item xs={12} md={6} sx={{ background: "purple" }}>
-          <Button variant="contained" color="secondary">
-            Click
-          </Button>
-        </Grid>
-      </Grid>
-    </main>
+    <Grid container>
+      <Header />
+      <OpenBox />
+      <HomeHeader />
+      <Card />
+      <Footer />
+    </Grid>
   );
 }

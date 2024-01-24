@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+import { colors } from "./color";
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -6,6 +7,7 @@ declare module "@mui/material/styles" {
       danger: string;
     };
   }
+  // allow configuration using `createTheme`
   interface ThemeOptions {
     status?: {
       danger?: string;
@@ -16,9 +18,6 @@ declare module "@mui/material/styles" {
 export const theme = createTheme({
   spacing: 4,
   palette: {
-    mode: "dark",
-    secondary: {
-      main: "#44EE66",
-    },
+    primary: colors.primary,
   },
 });

@@ -1,4 +1,4 @@
-import "./globals.css";
+import "./scss/globals.scss";
 import { ThemeProvider } from "@/theme";
 
 export default function RootLayout({
@@ -8,7 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <ThemeProvider>{children}</ThemeProvider>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
