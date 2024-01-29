@@ -1,89 +1,115 @@
 "use client";
+import {
+  Box,
+  Container,
+  Divider,
+  List,
+  ListItemButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Logo } from "../Logos";
+import Link from "next/link";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
-import { Stack, Container, Link } from "@mui/material";
-import Image from "next/image";
+const navLinks = [
+  { text: "Нүүр", href: "/" },
+  { text: "Холбоо барих", href: "/" },
+  { text: "Хоолны цэс", href: "/" },
+  { text: "Үйлчилгээний нөхцөл", href: "/" },
+  { text: "Хүргэлтийн бүс", href: "/" },
+  { text: "Нууцлалын бодлого", href: "/" },
+];
 
-export default function Footer() {
+const linkButtons = [
+  { icon: <FaFacebook size={40} />, href: "https://www.facebook.com/" },
+  { icon: <FaInstagram size={40} />, href: "https://www.instagram.com/" },
+  { icon: <FaTwitter size={40} />, href: "https://twitter.com/" },
+];
+
+const Footer = () => {
   return (
-    <Stack width="100vw" sx={{ background: "#18BA51", position: "relative" }}>
-      {/* <Box sx={{ height: "200%", background: "violet" }}> */}
-      <Image
-        alt=""
-        src="footerIcon.svg"
-        width={100}
-        height={100}
-        style={{
-          height: "100%",
-          width: "100%",
-          position: "absolute",
-          top: 0,
-        }}
-      />
-      {/* </Box> */}
+    <Box
+      padding={1}
+      sx={{
+        backgroundColor: "#18BA51",
+        height: "545px",
+        position: "relative",
+      }}
+      zIndex={-1000}
+    >
       <Container>
-        <Stack
-          display="flex"
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          gap={2}
-          marginTop={5}
+        <Box
+          color={"white"}
+          padding={20}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+            justifyContent: "center",
+          }}
         >
-          <Image alt="" src="pineconeWhite.svg" width={40} height={40} />
-          <Stack sx={{ color: "white" }} fontSize={20} fontFamily={"inherit"}>
-            Food Delivery
+          <Stack
+            gap={3}
+            direction={"row"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Logo />
+            <Typography variant="h5" style={{ fontWeight: 600 }}>
+              Food Delivery
+            </Typography>
           </Stack>
-        </Stack>
-        <Stack
-          display="flex"
-          direction="row"
-          gap={15}
-          justifyContent="center"
-          marginTop={8}
-        >
-          <Link sx={{ color: "white" }}>Нүүр</Link>
-          <Link sx={{ color: "white" }}>Холбоо барих</Link>
-          <Link sx={{ color: "white" }}>Хоолны цэс</Link>
-          <Link sx={{ color: "white" }}>Үйлчилгээний нөхцөл</Link>
-          <Link sx={{ color: "white" }}>Хүр гэлтийн бүс</Link>
-          <Link sx={{ color: "white" }}>Нууцлалийн бодлого</Link>
-        </Stack>
-        <Stack
-          direction="row"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          gap={5}
-          marginTop={6}
-          sx={{}}
-          borderBottom={1}
-          borderColor="white"
-        >
-          <Stack marginBottom={3}>
-            <Link>
-              <Image alt="" src="Facebook.svg" width={40} height={40} />
-            </Link>
+          <List sx={{ display: "flex" }}>
+            {navLinks.map((list, index) => (
+              <ListItemButton
+                key={index}
+                sx={{ textAlign: "center" }}
+                onClick={() => console.log(`clicked on ${list.text}`)}
+              >
+                <Link href={list.href} style={{ color: "#ffffff" }}>
+                  {list.text}
+                </Link>
+              </ListItemButton>
+            ))}
+          </List>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={3}
+          >
+            {linkButtons.map((link, idx) => (
+              <span key={idx}>{link.icon}</span>
+            ))}
           </Stack>
-          <Stack marginBottom={3}>
-            <Link>
-              <Image alt="" src="Instagram.svg" width={40} height={40} />
-            </Link>
-          </Stack>
-          <Stack marginBottom={3}>
-            <Link>
-              <Image alt="" src="Twitter.svg" width={40} height={40} />
-            </Link>
-          </Stack>
-        </Stack>
-        <Stack justifyContent="center" alignItems="center" marginBottom={10}>
-          <Stack sx={{ color: "white" }} marginTop={7}>
-            © 2024 Pinecone Foods LLC{" "}
-          </Stack>
-          <Stack sx={{ color: "white" }} marginTop={2}>
-            Зохиогчийн эрх хуулиар хамгаалагдсан.
-          </Stack>
-        </Stack>
+          <Divider sx={{ backgroundColor: "white", borderWidth: "1px" }} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography>&copy; 2024 Pinecone Foods LLC</Typography>
+            <Typography>Зохиогчийн эрх хуулиар хамгаалагдсанв</Typography>
+          </Box>
+        </Box>
       </Container>
-    </Stack>
+      <Box
+        zIndex={-100}
+        sx={{
+          position: "absolute",
+          height: "100%",
+          width: "99%",
+          top: 0,
+          backgroundImage: `url(pattern.svg)`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      ></Box>
+    </Box>
   );
-}
+};
+
+export default Footer;

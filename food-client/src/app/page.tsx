@@ -1,18 +1,14 @@
-import { Grid, Stack } from "@mui/material";
-import Card from "@/components/Card/Card";
+import { Grid } from "@mui/material";
 import HomeHeader from "@/components/Home/HomeHeader";
-import OpenBox from "@/components/Header/ModalBox/modalBox";
 import { Header } from "@/components";
 import Footer from "@/components/Footer/Footer";
+import HomeProfile from "@/components/Home/HomeProfile";
 
 export default function Home() {
   return (
     <Grid container>
-      <Header />
-      <OpenBox />
+      <HomeProfile />
       <HomeHeader />
-      <Card />
-      <Footer />
     </Grid>
   );
 }

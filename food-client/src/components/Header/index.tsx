@@ -16,27 +16,19 @@ import {
 } from "@mui/material";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Logo } from "@/components/Logos";
 import Link from "next/link";
-import DrawerMenu from "./DrawerMenu";
 
 const pages = ["НҮҮР", "ХООЛНЫ ЦЭС", "ХҮРГЭЛТИЙН БҮС"];
 const settings = ["Профайл", "Тохиргоо", , "Гарах"];
 
 export const Header = () => {
   const user = null;
-
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-  const [openBox, setOpenBox] = useState(false);
-
-  const handleOpen = () => {
-    return setOpenBox(true);
-  };
-  const handleClose = () => setOpenBox(false);
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -52,8 +44,6 @@ export const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const handleOpenBag = () => {};
 
   return (
     <AppBar
@@ -133,14 +123,17 @@ export const Header = () => {
               fontSize="medium"
               sx={{ position: "absolute", left: 12 }}
             />
-            <OutlinedInput sx={{ borderRadius: 3, pl: 6, height: "42px" }} />
+            <OutlinedInput
+              placeholder="Search"
+              sx={{ borderRadius: 3, pl: 6, height: "42px" }}
+            />
           </Box>
 
           <Box
             sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow: 0 }}
           >
             <Box sx={{ px: 2 }}>
-              <IconButton onClick={handleOpen} color="inherit">
+              <IconButton onClick={() => {}} color="inherit">
                 <ShoppingBasketOutlinedIcon fontSize="medium" />
                 <span
                   style={{
@@ -155,20 +148,18 @@ export const Header = () => {
               </IconButton>
             </Box>
             <Box sx={{ px: 2 }}>
-              <IconButton onClick={() => {}} color="inherit">
+              <IconButton onClick={() => {}} color="inherit" href="/login">
                 <PersonOutlineOutlinedIcon fontSize="medium" />
-                <Link
-                  href="/login"
+                <span
                   style={{
                     display: "inline-block",
                     marginLeft: "8px",
                     fontSize: "1rem",
                     fontWeight: "bold",
                   }}
-                  onClick={() => {}}
                 >
                   Нэвтрэх
-                </Link>
+                </span>
               </IconButton>
             </Box>
 
@@ -204,7 +195,6 @@ export const Header = () => {
           </Box>
         </Toolbar>
       </Container>
-      {<DrawerMenu open={openBox} handleClose={handleClose} />}
     </AppBar>
   );
 };

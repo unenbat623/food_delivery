@@ -1,21 +1,61 @@
 "use client";
 
-import { Stack, TextField, Typography } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
+import {
+  FormControl,
+  FormLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormHelperText,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface IInputProps {
+  name: string;
   label: string;
-  placeholder?: string;
+  errorText?: string | undefined;
+  showPassword?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Input = ({ label, placeholder, onChange }: IInputProps) => {
+export const Input = ({
+  name,
+  label,
+  errorText = "",
+  showPassword = false,
+  onChange,
+}: IInputProps) => {
+  const [isShowPassword, setIsShowPassword] = useState(showPassword);
+
   return (
-    <Stack>
-      <Typography fontSize={15} mb={1} mt={1}>
-        {label}
-      </Typography>
-      <TextField onChange={onChange} placeholder={placeholder}></TextField>
-    </Stack>
+    <>
+      <FormControl sx={{ my: "1rem" }} variant="outlined" fullWidth>
+        <FormLabel sx={{ my: "4px", color: "black" }}>{label}</FormLabel>
+        <OutlinedInput
+          name={name}
+          onChange={onChange}
+          sx={{ backgroundColor: "#ECEDF0" }}
+          placeholder={label}
+          type={isShowPassword ? "password" : "text"}
+          endAdornment={
+            showPassword && (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => {
+                    setIsShowPassword(!isShowPassword);
+                  }}
+                >
+                  {isShowPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }
+        />
+        <FormHelperText error={errorText ? true : false}>
+          {errorText}
+        </FormHelperText>
+      </FormControl>
+    </>
   );
 };
