@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Link, Stack } from "@mui/material";
+import { Container, Stack, Divider } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
@@ -11,7 +11,6 @@ const HomeProfile = () => {
       height="40vw"
       sx={{ background: "#18BA51", position: "relative" }}
     >
-      {/* <Box sx={{ height: "200%", background: "violet" }}> */}
       <Image
         alt=""
         src="footerIcon.svg"
@@ -30,6 +29,7 @@ const HomeProfile = () => {
           <Stack sx={{ color: "white" }} fontSize={20} fontFamily={"inherit"}>
             Pinecone Food delivery
           </Stack>
+          <Divider sx={{ backgroundColor: "white", borderWidth: "1px" }} />
           <Stack sx={{ color: "white" }} fontSize={20} fontFamily={"inherit"}>
             Horem ipsum dolor sit amet, consectetur adipiscing elit.
           </Stack>
@@ -40,7 +40,10 @@ const HomeProfile = () => {
           gap={15}
           justifyContent="center"
           marginTop={8}
-        ></Stack>
+        >
+          {/* <Image alt="" src="/foodprofile.png" width={500} height={400} /> */}
+          {/* <Image alt="" src="/food_profiled.png" width={500} height={400} /> */}
+        </Stack>
       </Container>
     </Stack>
   );

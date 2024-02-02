@@ -14,6 +14,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 interface IInputProps {
   name: string;
   label: string;
+  value?: string;
   errorText?: string | undefined;
   showPassword?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -22,7 +23,8 @@ interface IInputProps {
 export const Input = ({
   name,
   label,
-  errorText = "",
+  errorText,
+  value,
   showPassword = false,
   onChange,
 }: IInputProps) => {
@@ -34,6 +36,7 @@ export const Input = ({
         <FormLabel sx={{ my: "4px", color: "black" }}>{label}</FormLabel>
         <OutlinedInput
           name={name}
+          value={value}
           onChange={onChange}
           sx={{ backgroundColor: "#ECEDF0" }}
           placeholder={label}

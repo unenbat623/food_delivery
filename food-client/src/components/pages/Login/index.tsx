@@ -1,11 +1,51 @@
 "use client";
 
 import { Button, Input } from "@/components";
+import { UserContext } from "@/context/UserProvider";
 import { Box, Container, Stack, Typography } from "@mui/material";
+import { useFormik } from "formik";
+import axios from "axios";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import React, { useContext, useState } from "react";
 
-import React from "react";
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .max(100, "Имэйл хаяг 100 тэмдэгтээч хэтрэхгүй байна.")
+    .required("Имэйл хаягыг заавал бөглөнө үү.")
+    .email("Хүчинтэй имэйл хаяг байх ёстой")
+    .matches(
+      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@gmail[A-Za-z0-9.-]+$/,
+      "Та зөвхөн gmail хаяг оруулна"
+    ),
+  password: yup
+    .string()
+    .required("Нууц үгээ заавал бөглөнө үү.")
+    .min(6, "Нууц үг хамгийн багадаа . тэмдэгт байх байх ёстой."),
+});
 
 const LoginPage = () => {
+  const { login } = useContext(UserContext);
+
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    otp: "",
+  });
+
+  const formik = useFormik({
+    onSubmit: ({ email, password }) => {
+      console.log("SUB", email, password);
+      console.log("SUB", login);
+      login(email, password);
+    },
+    initialValues: { email: "", password: "" },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validationSchema,
+  });
+
   return (
     <Container>
       <Box
@@ -28,13 +68,26 @@ const LoginPage = () => {
           Нэвтрэх
         </Typography>
         <Stack width="100%" sx={{ mb: "2rem" }}>
-          <Input label="Имэйл" name="" />
-          <Input label="Нууц үг" showPassword name="" />
-          <Button label="Нууц үг сэргээх" btnType="text" href="/forget-pass" />
+          <Input
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            errorText={formik.errors.email}
+            label="Имэйл"
+          />
+          <Input
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            errorText={formik.errors.password}
+            label="Нууц үг"
+            showPassword
+          />
+          <Button label="Нууц үг сэргээх" btnType="text" href="/forgot-pass" />
         </Stack>
 
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Нэвтрэх" />
+          <Button label="Нэвтрэх" onClick={formik.handleSubmit} />
         </Stack>
         <Stack sx={{ my: "2rem" }}>
           <Typography>Эсвэл</Typography>
