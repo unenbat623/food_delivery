@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, SchemaType, model } from "mongoose";
 
 const categorySchema = new Schema({
   name: {
@@ -15,11 +15,16 @@ const categorySchema = new Schema({
     type: String,
     default: "no-category-photo",
   },
+  category: {
+    type: Schema.ObjectId,
+    ref: "category",
+    require: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Category = model("category", categorySchema);
+const Category = model("Category", categorySchema);
 export default Category;

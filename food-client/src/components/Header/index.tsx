@@ -16,10 +16,10 @@ import {
 } from "@mui/material";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Logo } from "@/components/Logos";
+import DrawerMenu from "./DrawerMenu";
 import Link from "next/link";
 
 const pages = ["НҮҮР", "ХООЛНЫ ЦЭС", "ХҮРГЭЛТИЙН БҮС"];
@@ -148,7 +148,7 @@ export const Header = () => {
               </IconButton>
             </Box>
             <Box sx={{ px: 2 }}>
-              <IconButton onClick={() => {}} color="inherit" href="/login">
+              <IconButton color="inherit" href="/login">
                 <PersonOutlineOutlinedIcon fontSize="medium" />
                 <span
                   style={{

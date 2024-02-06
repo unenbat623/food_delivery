@@ -26,7 +26,12 @@ const HomeProfile = () => {
       {/* </Box> */}
       <Container>
         <Stack display="grid" sx={{}} gap={2} marginTop={5}>
-          <Stack sx={{ color: "white" }} fontSize={20} fontFamily={"inherit"}>
+          <Stack
+            sx={{ color: "white" }}
+            fontSize={20}
+            fontFamily={"inherit"}
+            fontWeight={600}
+          >
             Pinecone Food delivery
           </Stack>
           <Divider sx={{ backgroundColor: "white", borderWidth: "1px" }} />

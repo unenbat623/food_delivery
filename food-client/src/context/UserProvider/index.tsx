@@ -3,6 +3,7 @@
 import { PropsWithChildren, createContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface IUser {
   name: string;
@@ -26,6 +27,7 @@ export const UserContext = createContext<IUserContext>({
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
+  const router = useRouter();
   const [user, setUser] = useState<IUser>({
     name: "",
     email: "",
@@ -40,12 +42,26 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         email: email,
         password: password,
       });
+      router.push("/");
       console.log(data);
     } catch (error) {
       toast.error("Email илгэээхэд алдаа гарлаа.");
     }
   };
 
+  const signup = async (email: string, password: string) => {
+    console.log("signup", email, password);
+    try {
+      const data = await axios.post("http://localhost:8080/auth/signup", {
+        email: email,
+        password: password,
+      });
+      router.push("/");
+      console.log(data);
+    } catch (error) {
+      toast.error("Email илгэээхэд алдаа гарлаа.");
+    }
+  };
   return (
     <UserContext.Provider value={{ user, login }}>
       {children}
