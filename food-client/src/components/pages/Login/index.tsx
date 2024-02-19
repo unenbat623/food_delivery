@@ -83,7 +83,7 @@ const LoginPage = () => {
             label="Нууц үг"
             showPassword
           />
-          <Button label="Нууц үг сэргээх" btnType="text" href="/forgot-pass" />
+          <Button label="Нууц үг сэргээх" btnType="text" href="/forget-pass" />
         </Stack>
 
         <Stack flex="row" width="100%" justifyContent="flex-end">

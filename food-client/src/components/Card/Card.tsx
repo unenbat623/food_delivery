@@ -16,7 +16,7 @@ interface IFoodProps {
   };
 }
 
-export const FoodCard = ({ data }: IFoodProps) => {
+const FoodCard = ({ data }: IFoodProps) => {
   return (
     <Card sx={{ width: "100%" }} style={{ border: "none", boxShadow: "none" }}>
       <CardActionArea>
@@ -38,3 +38,4 @@ export const FoodCard = ({ data }: IFoodProps) => {
     </Card>
   );
 };
+export default FoodCard;

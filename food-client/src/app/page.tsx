@@ -1,14 +1,14 @@
 import { Grid } from "@mui/material";
 import HomeHeader from "@/components/Home/HomeHeader";
-import { Header } from "@/components";
-import Footer from "@/components/Footer/Footer";
-import HomeProfile from "@/components/Home/HomeProfile";
+import { All } from "@/components/Home/FoodCategory/All";
+import HomeProfile from "@/components/Home/HomeProfile/index";
 
 export default function Home() {
   return (
     <Grid container>
       <HomeProfile />
       <HomeHeader />
+      <All />
     </Grid>
   );
 }

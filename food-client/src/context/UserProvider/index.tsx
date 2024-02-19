@@ -15,6 +15,13 @@ interface IUser {
 interface IUserContext {
   user: IUser;
   login: (name: string, password: string) => void;
+  signup: (
+    name: string,
+    email: string,
+    address: string,
+    password: string,
+    repassword: string
+  ) => void;
 }
 
 export const UserContext = createContext<IUserContext>({
@@ -24,6 +31,7 @@ export const UserContext = createContext<IUserContext>({
     address: "",
   },
   login: () => {},
+  signup: () => {},
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
@@ -49,12 +57,21 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const signup = async (email: string, password: string) => {
-    console.log("signup", email, password);
+  const signup = async (
+    email: string,
+    password: string,
+    address: string,
+    name: string,
+    repassword: string
+  ) => {
+    console.log("signup", email, password, address, name);
     try {
       const data = await axios.post("http://localhost:8080/auth/signup", {
+        name: name,
         email: email,
+        address: address,
         password: password,
+        repassword: repassword,
       });
       router.push("/");
       console.log(data);
@@ -63,7 +80,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
   return (
-    <UserContext.Provider value={{ user, login }}>
+    <UserContext.Provider value={{ user, login, signup }}>
       {children}
     </UserContext.Provider>
   );

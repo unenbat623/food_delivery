@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Stack, Divider } from "@mui/material";
+import { Container, Stack, Divider, Grid, Box } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
@@ -46,8 +46,14 @@ const HomeProfile = () => {
           justifyContent="center"
           marginTop={8}
         >
-          {/* <Image alt="" src="/foodprofile.png" width={500} height={400} /> */}
-          {/* <Image alt="" src="/food_profiled.png" width={500} height={400} /> */}
+          <Grid>
+            <Box sx={{ position: "absolute" }}>
+              <Image alt="" src="/foodprofile.png" width={600} height={600} />
+            </Box>
+            <Box sx={{ position: "absolute", pl: 70, pt: 35 }}>
+              <Image alt="" src="/food_profiled.png" width={300} height={300} />
+            </Box>
+          </Grid>
         </Stack>
       </Container>
     </Stack>

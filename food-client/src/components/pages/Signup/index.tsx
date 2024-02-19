@@ -38,13 +38,19 @@ const validationSchema = yup.object({
 });
 
 const SignupPage = () => {
-  const { login } = useContext(UserContext);
+  const { signup } = useContext(UserContext);
 
   const formik = useFormik({
-    onSubmit: ({ email, password }) => {
-      login(email, password);
+    onSubmit: ({ email, password, address, name, repassword }) => {
+      signup(email, password, address, name, repassword);
     },
-    initialValues: { name: "", email: "", address: "", password: "" },
+    initialValues: {
+      name: "",
+      email: "",
+      address: "",
+      password: "",
+      repassword: "",
+    },
     validateOnChange: false,
     validateOnBlur: false,
     validationSchema,
@@ -101,11 +107,11 @@ const SignupPage = () => {
             showPassword
           />
           <Input
-            name="re-password"
+            name="repassword"
             label="Нууц үг давтах"
-            value={formik.values.password}
+            value={formik.values.repassword}
             onChange={formik.handleChange}
-            errorText={formik.errors.password}
+            errorText={formik.errors.repassword}
             showPassword
           />
         </Stack>
