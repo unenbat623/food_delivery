@@ -4,9 +4,7 @@ import { Button, Input } from "@/components";
 import { UserContext } from "@/context/UserProvider";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import axios from "axios";
 import * as yup from "yup";
-import { toast } from "react-toastify";
 import React, { useContext, useState } from "react";
 
 const validationSchema = yup.object({
@@ -16,7 +14,7 @@ const validationSchema = yup.object({
     .required("Имэйл хаягыг заавал бөглөнө үү.")
     .email("Хүчинтэй имэйл хаяг байх ёстой")
     .matches(
-      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@gmail[A-Za-z0-9.-]+$/,
+      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@gmail[A-Za-z0-9.-]+$/, //regex
       "Та зөвхөн gmail хаяг оруулна"
     ),
   password: yup

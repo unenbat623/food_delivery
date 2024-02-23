@@ -1,8 +1,6 @@
 import { Container, Stack, Typography, Grid } from "@mui/material";
 import Image from "next/image";
-import { relative } from "path";
 import { CardSale } from "../HomeProfile/CardSale";
-import { Card } from "../HomeProfile/Card";
 import Link from "next/link";
 
 const arr = [
@@ -38,8 +36,8 @@ const arr = [
 
 export const Sale = () => {
   return (
-    <Stack>
-      <Container maxWidth="xl">
+    <Container>
+      <Grid sx={{ width: "100%" }}>
         <Stack gap={3}>
           <Stack
             padding={2}
@@ -70,7 +68,7 @@ export const Sale = () => {
             ))}
           </Grid>
         </Stack>
-      </Container>
-    </Stack>
+      </Grid>
+    </Container>
   );
 };

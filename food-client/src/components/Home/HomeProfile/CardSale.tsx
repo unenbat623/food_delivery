@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { Container } from "@mui/material";
 
 export const CardSale = () => {
   return (
@@ -18,24 +17,6 @@ export const CardSale = () => {
             fill
           />
         </Stack>
-        <Typography
-          top={10}
-          right={10}
-          position={"absolute"}
-          zIndex={1}
-          width={"fit-content"}
-          paddingY={0.5}
-          paddingX={2}
-          color={"#fff"}
-          bgcolor={"#18BA51"}
-          border={1}
-          borderRadius={16}
-          borderColor={"#fff"}
-          fontSize={18}
-          fontWeight={600}
-        >
-          20%
-        </Typography>
       </Stack>
       <Stack>
         <Typography fontSize={20} fontWeight={590}>

@@ -25,18 +25,31 @@ const HomeProfile = () => {
       />
       {/* </Box> */}
       <Container>
-        <Stack display="grid" sx={{}} gap={2} marginTop={5}>
+        <Stack
+          display="grid"
+          sx={{ position: "absolute" }}
+          gap={2}
+          marginTop={45}
+        >
           <Stack
             sx={{ color: "white" }}
-            fontSize={20}
+            fontSize={50}
             fontFamily={"inherit"}
-            fontWeight={600}
+            fontWeight={800}
           >
-            Pinecone Food delivery
+            Pinecone<span style={{ marginTop: -20 }}> Food delivery</span>
           </Stack>
-          <Divider sx={{ backgroundColor: "white", borderWidth: "1px" }} />
+          <Divider
+            sx={{
+              backgroundColor: "white",
+              borderWidth: "1px",
+              marginTop: 5,
+              width: 350,
+            }}
+          />
           <Stack sx={{ color: "white" }} fontSize={20} fontFamily={"inherit"}>
-            Horem ipsum dolor sit amet, consectetur adipiscing elit.
+            Horem ipsum dolor sit amet,
+            <span> consectetur adipiscing elit.</span>
           </Stack>
         </Stack>
         <Stack
@@ -47,11 +60,11 @@ const HomeProfile = () => {
           marginTop={8}
         >
           <Grid>
-            <Box sx={{ position: "absolute" }}>
-              <Image alt="" src="/foodprofile.png" width={600} height={600} />
+            <Box sx={{ position: "absolute", top: 10 }}>
+              <Image alt="" src="/foodprofile.png" width={400} height={400} />
             </Box>
-            <Box sx={{ position: "absolute", pl: 70, pt: 35 }}>
-              <Image alt="" src="/food_profiled.png" width={300} height={300} />
+            <Box sx={{ position: "absolute", top: "3px" }}>
+              <Image alt="" src="/food_profiled.png" width={200} height={200} />
             </Box>
           </Grid>
         </Stack>

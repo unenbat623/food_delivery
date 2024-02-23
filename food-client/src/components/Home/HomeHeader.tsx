@@ -36,9 +36,10 @@ export default function HomeHeader() {
         display: "flex",
         width: "100%",
         height: 130,
-        marginTop: 2,
+        marginTop: 3,
+        marginBottom: 4,
         justifyContent: "center",
-        gap: "15px",
+        gap: "60px",
         borderRadius: "16px",
       }}
     >

@@ -1,4 +1,4 @@
-import { Container, Stack, Typography, Grid } from "@mui/material";
+import { Container, Stack, Typography, Grid, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "../HomeProfile/Card";
@@ -6,49 +6,41 @@ import { Card } from "../HomeProfile/Card";
 const arr = [
   {
     image: "/food.svg",
-    discount: "20%",
     name: " Өглөөний хоол",
     price: " 4,800₮",
-    oldprice: "6,800₮",
   },
   {
     image: "/food.svg",
-    discount: "20%",
     name: " Өглөөний хоол",
     price: " 4,800₮",
-    oldprice: "6,800₮",
   },
   {
     image: "/food.svg",
-    discount: "20%",
     name: " Өглөөний хоол",
     price: " 4,800₮",
-    oldprice: "6,800₮",
   },
   {
     image: "/food.svg",
-    discount: "20%",
     name: " Өглөөний хоол",
     price: " 4,800₮",
-    oldprice: "6,800₮",
   },
 ];
 
 export const Main = () => {
   return (
-    <Stack>
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
+    <Container>
+      <Grid sx={{ width: "100%" }}>
+        <Stack gap={3}>
           <Stack
             padding={2}
             width={"100%"}
             direction={"row"}
             justifyContent={"space-between"}
           >
-            <Stack spacing={1} direction={"row"} alignItems={"center"}>
+            <Stack gap={1} direction={"row"} alignItems={"center"}>
               <Image src="Star.svg" alt="" width={32} height={32} />
               <Typography fontSize={22} fontWeight={700}>
-                Үндсэн хоол
+                 Үндсэн хоол
               </Typography>
             </Stack>
             <Link href={"/food-menu"}>
@@ -60,17 +52,15 @@ export const Main = () => {
               </Stack>
             </Link>
           </Stack>
-          <Stack direction={"row"} justifyContent={"space-between"}>
-            <Grid container spacing={3}>
-              {arr.map((_, index) => (
-                <Grid key={index} item xs={12} md={3}>
-                  <Card />
-                </Grid>
-              ))}
-            </Grid>
-          </Stack>
+          <Grid container spacing={3}>
+            {arr.map((_, index) => (
+              <Grid key={index} item xs={12} md={3}>
+                <Card />
+              </Grid>
+            ))}
+          </Grid>
         </Stack>
-      </Container>
-    </Stack>
+      </Grid>
+    </Container>
   );
 };
