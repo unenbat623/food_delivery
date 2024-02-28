@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -10,6 +10,7 @@ import { alpha } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { AuthContext } from "@/providers";
 
 export const account = {
   displayName: "Aдмин",
@@ -39,12 +40,14 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const { logout } = useContext(AuthContext);
 
   const handleOpen = (event: any) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
+    logout();
     setOpen(null);
   };
 

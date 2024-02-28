@@ -4,9 +4,12 @@ import {
   Button as MuiButton,
   Typography,
   Modal,
+  Grid,
   Stack,
   styled,
 } from "@mui/material";
+
+import { Remove, Add, Close } from "@mui/icons-material";
 import { Button, Input } from "../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
@@ -62,14 +65,14 @@ export default function CategoryModal({
           <Input
             name="name"
             label="Name"
-            desc="Write food name"
+            desc="Ангилал нэр"
             onChange={handleChange}
           />
 
           <Input
             name="description"
             label="Description"
-            desc="Write food Description"
+            desc="Ангилал тайлбар"
             onChange={handleChange}
           />
           <MuiButton
@@ -77,7 +80,7 @@ export default function CategoryModal({
             variant="contained"
             startIcon={<CloudUploadIcon />}
           >
-            Upload file
+            Зураг оруулах
             <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>
           <Button label="нэмэх" onClick={handleSave}></Button>

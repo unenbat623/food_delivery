@@ -5,17 +5,25 @@ import User from "../model/user";
 import { sendEmail } from "../utils/sendEmail";
 import MyError from "../utils/myerror";
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("Signup");
   try {
     const newUser = req.body;
-    const user = await User.create({ ...newUser });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newUser.password, salt);
+    const user = await User.create({ ...newUser, password: hashedPassword });
     const verifyToken = jwt.sign(
       { email: user.email },
-      process.env.JWT_PRIVATE_KEY as string,
+      process.env.JWT_PRIVATE_KEY as string, ////
       {
         expiresIn: "5m",
       }
     );
+    console.log("next signup");
     sendEmail({ email: user.email, token: verifyToken });
     res.status(201).json({
       message:
@@ -34,17 +42,24 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).select("+password");
-    if (!user) {
-      throw new MyError(`${email}-тэй хэрэглэгч бүртгэлгүй байна.`, 400);
-    }
-    const isValid = await bcrypt.compare(password, user.password);
+    console.log("LOGIN", req.body);
+    const { userEmail, userPassword } = req.body;
+    console.log("LOGIN", userEmail);
+    console.log("Password", userPassword);
 
+    const user = await User.findOne({ email: userEmail }).select("+password");
+
+    if (!user) {
+      throw new MyError(`${userEmail}-тэй хэрэглэгч бүртгэлгүй байна.`, 400);
+    }
+    console.log("success", user);
+    const isValid = await bcrypt.compare(userPassword, user.password);
+    console.log("bcrypted", isValid);
     if (!isValid) {
+      console.log("error");
       throw new MyError(`Имэйл эсвэл нууц үг буруу байна.`, 400);
     }
-
+    console.log("nevterlee");
     const token = jwt.sign(
       {
         id: user._id,
@@ -53,7 +68,13 @@ export const login = async (
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
-    res.status(201).json({ message: "Хэрэглэгч амжилттай нэвтэрлээ", token });
+    const { password, ...otherParams } = user;
+    console.log("OTHER PARAMS", user);
+    res.status(201).json({
+      message: "Хэрэглэгч амжилттай нэвтэрлээ",
+      token,
+      user: user,
+    });
   } catch (error) {
     next(error);
   }

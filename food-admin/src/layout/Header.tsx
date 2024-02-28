@@ -6,11 +6,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
-
-import { useResponsive } from "@/hooks/use-responsive";
-
+import { useResponsive } from "@/hooks/ui/use-responsive";
 import { bgBlur } from "@/theme/css";
-
 import Iconify from "@/components/iconify";
 
 // import Searchbar from "./common/searchbar";

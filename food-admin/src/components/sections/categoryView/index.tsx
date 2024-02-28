@@ -12,38 +12,15 @@ import CategoryCard from "./category-card";
 import CategorySort from "./category-sort";
 import CategorySearch from "./category-search";
 
-// ----------------------------------------------------------------------
-import { faker } from "@faker-js/faker";
 import CategoryModal from "@/components/categoryModal";
 import { ChangeEvent, useEffect, useState } from "react";
-
-import axios, { AxiosError } from "axios";
-
-// ----------------------------------------------------------------------
-
-const CATEGORY_TITLES = [
-  "Whiteboard Templates",
-  "Tesla Cybertruck-inspired",
-  "Designify Agency",
-  "✨What is Done is Done ✨",
-  "Fresh Prince",
-  "Six Socks Studio",
-  "vincenzo de cotiis",
-];
-// const categories = [...Array(CATEGORY_TITLES.length)].map(
-//   (_, index) => ({
-//     id: faker.string.uuid(),
-//     cover: `/assets/images/covers/cover_${index + 1}.jpg`,
-//     title: CATEGORY_TITLES[index + 1],
-//     createdAt: faker.date.past(),
-//   })
-// );
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
 export default function CategoryView() {
   const [open, setOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<{}[]>([]);
   const [file, setFile] = useState<File | null>(null);
 
   const [newCategory, setNewCategory] = useState({
@@ -74,14 +51,19 @@ export default function CategoryView() {
       formData.set("image", file!);
       formData.set("name", newCategory.name);
       formData.set("description", newCategory.description);
+      const token = localStorage.getItem("token");
 
       const {
         data: { category },
-      } = (await axios.post("http://localhost:8080/categories", formData)) as {
+      } = (await axios.post("http://localhost:8080/categories", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })) as {
         data: { category: object };
       };
 
-      // setCategories(categories);
+      setCategories((prevCat) => [...prevCat, categories]);
       console.log("Success Add Category");
     } catch (error: any) {
       alert("Add Error - " + error.message);
@@ -125,7 +107,7 @@ export default function CategoryView() {
           Шинэ ангилал
         </Button>
       </Stack>
-      <Stack
+      {/* <Stack
         mb={5}
         direction="row"
         alignItems="center"
@@ -139,7 +121,7 @@ export default function CategoryView() {
             { value: "oldest", label: "Өмнөх" },
           ]}
         />
-      </Stack>
+      </Stack> */}
       <Grid container spacing={3}>
         {categories?.map((category: any) => (
           <CategoryCard key={category._id} category={category} />

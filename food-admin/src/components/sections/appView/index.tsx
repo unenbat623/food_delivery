@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { faker } from "@faker-js/faker";
 
 import Container from "@mui/material/Container";
@@ -16,14 +17,19 @@ import AppWidgetSummary from "./app-widget-summary";
 import AppTrafficBySite from "./app-traffic-by-site";
 import AppCurrentSubject from "./app-current-subject";
 import AppConversionRates from "./app-conversion-rates";
+import { useContext, useState } from "react";
+import { redirect } from "next/navigation";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useAuthUser } from "@/hooks/auth/useAuth";
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  const { user } = useContext(AuthContext);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Сайн уу, Тавтай морил 👋
+        Сайн уу, Тавтай морил - {user?.name}👋
       </Typography>
 
       <Grid container spacing={3}>

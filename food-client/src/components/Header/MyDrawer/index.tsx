@@ -5,8 +5,12 @@ import {
   Typography,
   Grid,
   Divider,
+  Stack,
+  Button,
 } from "@mui/material";
 import { Remove, Add, Close } from "@mui/icons-material";
+import Link from "next/link";
+import axios from "axios";
 
 const style = {
   width: 538,
@@ -23,12 +27,37 @@ const backgroundImageStyle = {
 
 export const DrawerCard = () => {
   const [count, setCount] = React.useState(1);
+  const [sum, setSum] = React.useState(0);
 
+  React.useEffect(() => {
+    const fetchSumData = async () => {
+      try {
+        const response = await axios.get("your-api-endpoint");
+        setSum(response.data.sum);
+      } catch (error) {
+        console.error("Error fetching sum data:", error);
+      }
+    };
+
+    fetchSumData();
+  }, []);
+
+  const changeOnclick = () => {
+    setSum(sum + 10);
+  };
   const handleCount = (operation: string) => {
-    if (operation === "add") {
+    if (operation === "zero") {
+      setCount(count + 0);
+    } else operation === "add";
+    {
       setCount(count + 1);
-    } else if (operation === "min") {
-      setCount(count - 1);
+    }
+    if (operation === "min") {
+      if (count == 0) {
+        setCount(0);
+      } else {
+        setCount(count - 1);
+      }
     }
   };
 
@@ -99,6 +128,38 @@ export const DrawerCard = () => {
             </Grid>
           </Grid>
         </Grid>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          bottom={10}
+          marginRight={5}
+          position={"absolute"}
+        >
+          <Stack width={"50%"}>
+            <Typography color={"#5E6166"} fontSize={18} fontWeight={400}>
+              Нийт төлөх дүн
+            </Typography>
+            <Typography color={"#121316"} fontSize={18} fontWeight={700}>
+              34,800₮
+            </Typography>
+          </Stack>
+          <Stack width={"50%"}>
+            <Link href={"/order"}>
+              <Button
+                fullWidth
+                variant="contained"
+                disableElevation
+                sx={{
+                  py: "14.5px",
+                  bgcolor: "#18BA51",
+                  marginRight: 85,
+                }}
+              >
+                Захиалах
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
       </Box>
       <Divider />
     </>

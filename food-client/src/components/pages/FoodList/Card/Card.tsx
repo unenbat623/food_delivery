@@ -9,29 +9,29 @@ import {
 } from "@mui/material";
 
 interface IFoodProps {
-  data: {
+  food: {
     name: string;
     price: number;
     img: string;
   };
 }
 
-const FoodCard = ({ data }: IFoodProps) => {
+const FoodCard = ({ food }: IFoodProps) => {
   return (
     <Card sx={{ width: "100%" }} style={{ border: "none", boxShadow: "none" }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="100%"
-          image={data.img || "/assets/images/food_back.png"}
+          image={food.img || "/assets/images/food_back.png"}
           alt="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {data.name}
+            {food.name}
           </Typography>
           <Typography variant="h6" sx={{ color: "#18BA51", fontWeight: 800 }}>
-            {data.price}
+            {food.price}
           </Typography>
         </CardContent>
       </CardActionArea>

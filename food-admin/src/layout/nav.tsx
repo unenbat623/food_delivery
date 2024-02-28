@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 
 import Box from "@mui/material/Box";
@@ -10,7 +12,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 import { usePathname } from "next/navigation";
 
-import { useResponsive } from "@/hooks/use-responsive";
+import { useResponsive } from "@/hooks/ui/use-responsive";
 
 import Logo from "@/components/logo";
 import Scrollbar from "@/components/scrollbar";

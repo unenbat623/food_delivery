@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { Button, MuiButton } from "@mui/material";
+import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Image from "next/image";
@@ -37,7 +37,11 @@ export default function ModalBox() {
       setCount(count + 1);
     }
     if (operation === "min") {
-      setCount(count - 1);
+      if (count == 0) {
+        setCount(0);
+      } else {
+        setCount(count - 1);
+      }
     }
   };
 
@@ -87,7 +91,7 @@ export default function ModalBox() {
                 Тоо
               </Typography>
               <Box display={"flex"} gap={1}>
-                <MuiButton onClick={() => handleCount("min")}>
+                <Button onClick={() => handleCount("min")}>
                   <Remove
                     sx={{
                       bgcolor: "#18BA51",
@@ -97,7 +101,7 @@ export default function ModalBox() {
                       borderRadius: 2,
                     }}
                   />
-                </MuiButton>
+                </Button>
                 <input
                   type="text"
                   value={count}
@@ -111,7 +115,7 @@ export default function ModalBox() {
                     fontSize: 16,
                   }}
                 />
-                <MuiButton onClick={() => handleCount("add")}>
+                <Button onClick={() => handleCount("add")}>
                   <Add
                     sx={{
                       bgcolor: "#18BA51",
@@ -121,7 +125,7 @@ export default function ModalBox() {
                       borderRadius: 2,
                     }}
                   />
-                </MuiButton>
+                </Button>
               </Box>
               <Stack
                 sx={{

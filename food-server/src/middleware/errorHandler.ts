@@ -10,7 +10,14 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("ERR MIDD======>", err.stack?.red.underline);
+  console.log("ERR MESSAGE =====>", err.message.cyan);
+  console.log("ERR STACK =====>", err.stack?.red.underline);
+
+  if (err.message === "jwt expired")
+    err.message = "Token-ний хугацаа дууссан байна дахин нэвтэрнэ үү";
+  else if (err.message === "invalid signature")
+    err.message = "Token буруу байна дахин нэвтэрнэ үү";
+  else err.message = err.message;
 
   res.status(err.statusCode || 500).json({
     message: err.message || "Internal Server Error",

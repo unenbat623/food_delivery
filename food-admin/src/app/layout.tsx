@@ -1,5 +1,10 @@
+"use client";
+
 import ThemeProvider from "@/theme";
 import "./globals.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AuthProvider from "@/providers/AuthProvider";
 
 export default function RootLayout({
   children,
@@ -9,7 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+          <ToastContainer />
+        </AuthProvider>
       </body>
     </html>
   );

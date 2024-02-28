@@ -1,6 +1,8 @@
+"use client";
+
 import Box from "@mui/material/Box";
 
-import { useResponsive } from "@/hooks/use-responsive";
+import { useResponsive } from "@/hooks/ui/use-responsive";
 
 import { NAV, HEADER } from "./config-layout";
 

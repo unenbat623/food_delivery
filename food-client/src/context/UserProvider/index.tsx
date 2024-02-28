@@ -47,12 +47,13 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     console.log("LOGIN", email, password);
     try {
       const data = await axios.post("http://localhost:8080/auth/login", {
-        email: email,
-        password: password,
+        userEmail: email,
+        userPassword: password,
       });
       router.push("/");
       console.log(data);
     } catch (error) {
+      console.log(error);
       toast.error("Email илгэээхэд алдаа гарлаа.");
     }
   };
