@@ -1,10 +1,10 @@
 import "./scss/globals.scss";
 import { ThemeProvider } from "@/theme";
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/HeaderAndFooter/Footer/Footer";
 import { UserProvider } from "@/context/UserProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/HeaderAndFooter/Header";
 
 export default function RootLayout({
   children,

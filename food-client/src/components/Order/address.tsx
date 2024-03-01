@@ -1,7 +1,7 @@
 "use client";
 
 import { Checkbox, Stack, Typography } from "@mui/material";
-import { CustomInput, InProgress } from "..";
+import { CustomInput, InProgress } from "../Inprogress/Inprogress";
 import { CustomInputSelect } from "..";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";

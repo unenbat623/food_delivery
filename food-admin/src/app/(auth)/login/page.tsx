@@ -14,27 +14,20 @@ import IconButton from "@mui/material/IconButton";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { alpha, useTheme } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
-
 import { redirect } from "next/navigation";
-
 import { bgGradient } from "@/theme/css";
-
 import Logo from "@/components/logo";
 import Iconify from "@/components/iconify";
 import axios, { AxiosError } from "axios";
 import { UserType, AuthContext } from "@/providers";
 import { toast } from "react-toastify";
 
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-
 export default function LoginView() {
   const theme = useTheme();
   const { setAuthUserAndToken } = useContext(AuthContext);
 
-  const [userEmail, setUserEmail] = useState("ugtakhbayars@gmail.com");
-  const [userPassword, setUserPassword] = useState("admin12345");
+  const [userEmail, setUserEmail] = useState("@gmail.com");
+  const [userPassword, setUserPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 

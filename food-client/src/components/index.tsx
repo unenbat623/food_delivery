@@ -1,3 +1,3 @@
-export * from "./Header";
+export * from "./HeaderAndFooter/Header";
 export * from "./core/Button";
 export * from "./core/Input";

@@ -1,8 +1,10 @@
+"use client";
+
 import { Stack, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import Image from "next/image";
-import { InProgress } from "..";
+import { InProgress } from "../Inprogress/Inprogress";
 import Link from "next/link";
 
 export const OrderCard = () => {
