@@ -28,7 +28,6 @@ const settings = ["Профайл", "Тохиргоо", , "Гарах"];
 
 export const Header = () => {
   const [drawer, setDrawer] = useState(false);
-  const [openDrawer, setOpenDrawer] = useState();
   const user = null;
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);

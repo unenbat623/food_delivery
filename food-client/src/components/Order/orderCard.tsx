@@ -14,7 +14,7 @@ export const OrderCard = () => {
 
       <Stack
         maxWidth={"432px"}
-        minHeight={"588px"}
+        minHeight={"750px"}
         border={1}
         padding={3}
         borderRadius={2}
@@ -26,7 +26,7 @@ export const OrderCard = () => {
           <Stack paddingY={3} borderTop={1} borderBottom={1}>
             <Stack direction={"row"} alignItems={"center"}>
               <Stack width={"50%"}>
-                <Image src="/image (1).svg" alt="" width={184} height={150} />
+                <Image src="/food.svg" alt="" width={184} height={150} />
               </Stack>
               <Stack width={"50%"}>
                 <Stack

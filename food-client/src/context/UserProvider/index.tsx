@@ -47,8 +47,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     console.log("LOGIN", email, password);
     try {
       const data = await axios.post("http://localhost:8080/auth/login", {
-        userEmail: email,
-        userPassword: password,
+        Email: email,
+        Password: password,
       });
       router.push("/");
       console.log(data);

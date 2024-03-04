@@ -5,25 +5,18 @@ import User from "../model/user";
 import { sendEmail } from "../utils/sendEmail";
 import MyError from "../utils/myerror";
 
-export const signup = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const signup = async (req: Request, res: Response) => {
   console.log("Signup");
   try {
     const newUser = req.body;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newUser.password, salt);
-    const user = await User.create({ ...newUser, password: hashedPassword });
+    const user = await User.create({ ...newUser });
     const verifyToken = jwt.sign(
       { email: user.email },
-      process.env.JWT_PRIVATE_KEY as string, ////
+      process.env.JWT_PRIVATE_KEY as string,
       {
         expiresIn: "5m",
       }
     );
-    console.log("next signup");
     sendEmail({ email: user.email, token: verifyToken });
     res.status(201).json({
       message:
@@ -52,7 +45,9 @@ export const login = async (
     if (!user) {
       throw new MyError(`${userEmail}-тэй хэрэглэгч бүртгэлгүй байна.`, 400);
     }
-    console.log("success", user);
+    console.log("success", user.password);
+    console.log("pp", userPassword);
+
     const isValid = await bcrypt.compare(userPassword, user.password);
     console.log("bcrypted", isValid);
     if (!isValid) {

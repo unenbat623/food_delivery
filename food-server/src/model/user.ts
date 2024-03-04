@@ -74,11 +74,17 @@ const userSchema = new Schema(
 
 userSchema.pre("save", async function async(next) {
   console.log("Savingg User Model");
-  if (this.isModified("password")) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+  if (!this.isModified("password")) {
+    console.log("RE-PASS-SAVE-FINISH");
+    next();
   }
-  next();
+
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(this.password, salt);
+  console.log("PASS-SAVE", this.password);
+  console.log("PASS-HASH", hash);
+  this.password = hash;
+  console.log("PASS-SAVE-FINISH");
 });
 
 const User = model("User", userSchema);

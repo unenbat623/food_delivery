@@ -6,14 +6,14 @@ import { Container, Stack } from "@mui/material";
 
 export default function Order() {
   return (
-    <Stack width={"100vw"} height={"92vh"}>
+    <Stack width={"100vw"} height={"70vw"} marginTop={5}>
       <Container maxWidth="xl">
         <Stack
           width={"100%"}
           direction={"row"}
           justifyContent={"space-around"}
           alignItems={"center"}
-          paddingTop={"8%"}
+          paddingTop={"1px"}
         >
           <Address />
           <OrderCard />

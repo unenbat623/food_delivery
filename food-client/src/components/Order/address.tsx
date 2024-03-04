@@ -1,11 +1,12 @@
 "use client";
 
-import { Checkbox, Stack, Typography } from "@mui/material";
-import { CustomInput, InProgress } from "../Inprogress/Inprogress";
-import { CustomInputSelect } from "..";
+import { Stack, Typography } from "@mui/material";
+import { InProgress } from "../Inprogress/Inprogress";
+import { Input } from "../core/Input/index";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { useState } from "react";
+import Image from "next/image";
 
 export const Address = () => {
   const [checkIcon, setCheckIcon] = useState(false);
@@ -28,20 +29,24 @@ export const Address = () => {
             Хаяг аа оруулна уу
           </Typography>
           <Stack gap={2}>
-            <CustomInputSelect placeholder="Дүүрэг сонгоно уу" />
-            <CustomInputSelect placeholder="Хороо сонгоно уу" />
-            <CustomInputSelect placeholder="Байр, гудамж сонгоно уу" />
+            <Stack sx={{ display: "flex" }}>
+              <Image alt="" src="location.svg" width={20} height={20} />
+              <Input name="" label="Дүүрэг сонгоно уу" />
+            </Stack>
+
+            <Stack sx={{ display: "flex" }}>
+              <Image alt="" src="location.svg" width={20} height={20} />
+              <Input name="" label="Хороо сонгоно уу" />
+            </Stack>
+            <Stack sx={{ display: "flex" }}>
+              <Image alt="" src="location.svg" width={20} height={20} />
+              <Input name="" label="Байр, гудамж сонгоно уу" />
+            </Stack>
           </Stack>
         </Stack>
         <Stack gap={4}>
-          <CustomInput
-            label="Нэмэлт мэдээлэл"
-            placeholder="Орц, давхар, орцны код ..."
-          />
-          <CustomInput
-            label="Утасны дугаар*"
-            placeholder="Утасны дугаараа оруулна уу"
-          />
+          <Input name="Нэмэлт мэдээлэл" label="Орц, давхар, орцны код ..." />
+          <Input name="Утасны дугаар*" label="Утасны дугаараа оруулна уу" />
           <Stack>
             <Typography fontSize={14} fontWeight={400}>
               Төлбөр төлөх{" "}
