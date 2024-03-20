@@ -67,7 +67,7 @@ export const OrderCard = () => {
             </Typography>
           </Stack>
           <Stack width={"50%"}>
-            <Link href={"/order-history"}>
+            <Link href={"/orderhistory"}>
               <Button
                 fullWidth
                 variant="contained"

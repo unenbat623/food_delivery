@@ -44,11 +44,11 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   });
 
   const login = async (email: string, password: string) => {
-    console.log("LOGIN", email, password);
+    console.log("LOGIN", email);
     try {
       const data = await axios.post("http://localhost:8080/auth/login", {
-        Email: email,
-        Password: password,
+        userEmail: email,
+        userPassword: password,
       });
       router.push("/");
       console.log(data);

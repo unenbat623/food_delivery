@@ -4,7 +4,6 @@ import {
   Button as MuiButton,
   Typography,
   Modal,
-  Grid,
   Stack,
   styled,
   FormControlLabel,
@@ -17,8 +16,6 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
-import Image from "next/image";
-import { Remove, Add, Close } from "@mui/icons-material";
 import { Button, Input } from "../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 

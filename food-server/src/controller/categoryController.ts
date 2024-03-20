@@ -41,8 +41,8 @@ export const getAllCategory = async (
   next: NextFunction
 ) => {
   try {
-    const { categoryId } = req.params;
     const categories = await Category.find();
+    console.log(categories, "categories");
     res.status(200).json({ message: `buh catergory oldloo.`, categories });
   } catch (error) {
     next(error);

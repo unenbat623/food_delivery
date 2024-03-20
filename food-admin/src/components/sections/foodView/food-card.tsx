@@ -15,7 +15,7 @@ export default function FoodCard({ product }: any) {
   const renderStatus = (
     <Label
       variant="filled"
-      color={(product.status === "sale" && "error") || "info"}
+      color={(product.isSale === "sale" && "error") || "info"}
       sx={{
         zIndex: 9,
         top: 16,
@@ -24,7 +24,7 @@ export default function FoodCard({ product }: any) {
         textTransform: "uppercase",
       }}
     >
-      {product.status}
+      {product.isSale}
     </Label>
   );
 
@@ -32,7 +32,7 @@ export default function FoodCard({ product }: any) {
     <Box
       component="img"
       alt={product.name}
-      src={product.cover}
+      src={product.image}
       sx={{
         top: 0,
         width: 1,
@@ -53,7 +53,7 @@ export default function FoodCard({ product }: any) {
           textDecoration: "line-through",
         }}
       >
-        {product.priceSale && fCurrency(product.priceSale)}
+        {product.discountPrice && fCurrency(product.discountPrice)}
       </Typography>
       &nbsp;
       {fCurrency(product.price)}
@@ -84,7 +84,6 @@ export default function FoodCard({ product }: any) {
           alignItems="center"
           justifyContent="space-between"
         >
-          <ColorPreview colors={product.colors} />
           {renderPrice}
         </Stack>
       </Stack>

@@ -1,6 +1,6 @@
 "use client";
 
-import CategoryFoodList from "@/components/pages/FoodList/index";
+import CategoryFoodList from "@/components/FoodList/index";
 
 import { Grid } from "@mui/material";
 import React from "react";

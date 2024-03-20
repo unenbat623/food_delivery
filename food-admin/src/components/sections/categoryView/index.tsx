@@ -72,12 +72,16 @@ export default function CategoryView() {
 
   const getCategory = async () => {
     try {
+      const token = localStorage.getItem("auth-token");
       const {
         data: { categories },
-      } = (await axios.get("http://localhost:8080/categories")) as {
+      } = (await axios.get("http://localhost:8080/categories", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })) as {
         data: { categories: [] };
       };
-
       setCategories(categories);
     } catch (error: any) {
       alert("Get Error - " + error.message);

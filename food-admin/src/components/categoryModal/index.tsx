@@ -4,7 +4,6 @@ import {
   Button as MuiButton,
   Typography,
   Modal,
-  Grid,
   Stack,
   styled,
 } from "@mui/material";
@@ -45,43 +44,45 @@ export default function CategoryModal({
   handleSave,
 }: any) {
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Stack direction={"row"} justifyContent={"space-between"}>
-          <Typography variant="h3">Ангилал нэмэх хэсэг</Typography>
-          <MuiButton onClick={handleClose} sx={{ fontSize: 23 }}>
-            X
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Stack direction={"row"} justifyContent={"space-between"}>
+            <Typography variant="h3">Ангилал нэмэх хэсэг</Typography>
+            <MuiButton onClick={handleClose} sx={{ fontSize: 23 }}>
+              X
+            </MuiButton>
+          </Stack>
+
+          <Input
+            name="name"
+            label="Name"
+            desc="Ангилал нэр"
+            onChange={handleChange}
+          />
+
+          <Input
+            name="description"
+            label="Description"
+            desc="Ангилал тайлбар"
+            onChange={handleChange}
+          />
+          <MuiButton
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+          >
+            Зураг оруулах
+            <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>
-        </Stack>
-
-        <Input
-          name="name"
-          label="Name"
-          desc="Ангилал нэр"
-          onChange={handleChange}
-        />
-
-        <Input
-          name="description"
-          label="Description"
-          desc="Ангилал тайлбар"
-          onChange={handleChange}
-        />
-        <MuiButton
-          component="label"
-          variant="contained"
-          startIcon={<CloudUploadIcon />}
-        >
-          Зураг оруулах
-          <VisuallyHiddenInput type="file" onChange={handleFileChange} />
-        </MuiButton>
-        <Button label="нэмэх" onClick={handleSave}></Button>
-      </Box>
-    </Modal>
+          <Button label="нэмэх" onClick={handleSave}></Button>
+        </Box>
+      </Modal>
+    </div>
   );
 }

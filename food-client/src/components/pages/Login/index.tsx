@@ -5,7 +5,7 @@ import { UserContext } from "@/context/UserProvider";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 const validationSchema = yup.object({
   email: yup
@@ -14,7 +14,7 @@ const validationSchema = yup.object({
     .required("Имэйл хаягыг заавал бөглөнө үү.")
     .email("Хүчинтэй имэйл хаяг байх ёстой")
     .matches(
-      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@gmail[A-Za-z0-9.-]+$/, //regex
+      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@gmail[A-Za-z0-9.-]+$/,
       "Та зөвхөн gmail хаяг оруулна"
     ),
   password: yup
@@ -22,20 +22,13 @@ const validationSchema = yup.object({
     .required("Нууц үгээ заавал бөглөнө үү.")
     .min(6, "Нууц үг хамгийн багадаа . тэмдэгт байх байх ёстой."),
 });
-
 const LoginPage = () => {
   const { login } = useContext(UserContext);
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-    otp: "",
-  });
-
   const formik = useFormik({
     onSubmit: ({ email, password }) => {
-      console.log("SUB", email, password);
-      console.log("SUB", login);
+      console.log("EMAIL", email);
+      console.log("PASS", password);
       login(email, password);
     },
     initialValues: { email: "", password: "" },
@@ -81,7 +74,7 @@ const LoginPage = () => {
             label="Нууц үг"
             showPassword
           />
-          <Button label="Нууц үг сэргээх" btnType="text" href="/forget-pass" />
+          <Button label="Нууц үг сэргээх" btnType="text" href="/forgot-pass" />
         </Stack>
 
         <Stack flex="row" width="100%" justifyContent="flex-end">
