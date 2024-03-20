@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Response, Request } from "express";
 import color from "colors";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -32,6 +32,10 @@ app.use("/verify", verifyRoute);
 app.use("/upload", uploadRoute);
 app.use("/basket", basketRoute);
 app.use("/order", orderRoute);
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("<h1>Food Delivery</h1>");
+});
 
 app.use(errorHandler);
 
