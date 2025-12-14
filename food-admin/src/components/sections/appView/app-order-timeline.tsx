@@ -1,15 +1,17 @@
 "use client";
 import Card from "@mui/material/Card";
-import Timeline from "@mui/lab/Timeline";
-import TimelineDot from "@mui/lab/TimelineDot";
-import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { alpha, useTheme } from "@mui/material/styles";
 
 import { fDateTime } from "@/utils/format-time";
+
+import Label from "@/components/label";
 
 // ----------------------------------------------------------------------
 
@@ -19,58 +21,53 @@ export default function AnalyticsOrderTimeline({
   list,
   ...other
 }: any) {
-  return (
-    <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
+  const theme = useTheme();
 
-      <Timeline
-        sx={{
-          m: 0,
-          p: 3,
-          [`& .${timelineItemClasses.root}:before`]: {
-            flex: 0,
-            padding: 0,
-          },
-        }}
-      >
-        {list.map((item: any, index: number) => (
-          <OrderItem
-            key={item.id}
-            item={item}
-            lastTimeline={index === list.length - 1}
-          />
-        ))}
-      </Timeline>
+  return (
+    <Card sx={{ borderRadius: 2, boxShadow: (theme as any).customShadows?.z8 }} {...other}>
+      <CardHeader title={title} subheader={subheader} sx={{ mb: 2 }} />
+
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ bgcolor: alpha((theme.palette.primary as any).lighter, 0.2) }}>
+              <TableCell>Title</TableCell>
+              <TableCell>Time</TableCell>
+              <TableCell>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {list.map((item: any, index: number) => (
+              <TableRow
+                key={item.id}
+                hover
+                sx={{
+                  "&:nth-of-type(odd)": {
+                    bgcolor: alpha(theme.palette.grey[500], 0.04),
+                  },
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
+              >
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{fDateTime(item.time)}</TableCell>
+                <TableCell>
+                  <Label
+                    color={
+                      (item.type === "order1" && "primary") ||
+                      (item.type === "order2" && "success") ||
+                      (item.type === "order3" && "info") ||
+                      (item.type === "order4" && "warning") ||
+                      "error"
+                    }
+                  >
+                    {item.type}
+                  </Label>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Card>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-function OrderItem({ item, lastTimeline }: any) {
-  const { type, title, time } = item;
-  return (
-    <TimelineItem>
-      <TimelineSeparator>
-        <TimelineDot
-          color={
-            (type === "order1" && "primary") ||
-            (type === "order2" && "success") ||
-            (type === "order3" && "info") ||
-            (type === "order4" && "warning") ||
-            "error"
-          }
-        />
-        {lastTimeline ? null : <TimelineConnector />}
-      </TimelineSeparator>
-
-      <TimelineContent>
-        <Typography variant="subtitle2">{title}</Typography>
-
-        <Typography variant="caption" sx={{ color: "text.disabled" }}>
-          {fDateTime(time)}
-        </Typography>
-      </TimelineContent>
-    </TimelineItem>
   );
 }

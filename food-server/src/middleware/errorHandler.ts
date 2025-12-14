@@ -1,4 +1,5 @@
 import { Response, Request, NextFunction } from "express";
+import "colors";
 
 interface IMyError extends Error {
   statusCode: number;

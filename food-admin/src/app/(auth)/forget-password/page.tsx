@@ -17,7 +17,7 @@ import { bgGradient } from "@/theme/css";
 
 import Logo from "@/components/logo";
 import Iconify from "@/components/iconify";
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
 
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -42,7 +42,7 @@ export default function LoginView() {
       setIsLoading(true);
       const {
         data: { message },
-      } = (await axios.post("http://localhost:8080/verify/reset-password", {
+      } = (await instanceAxios.post("/verify/reset-password", {
         userEmail,
         userPassword,
       })) as {
@@ -54,7 +54,8 @@ export default function LoginView() {
         },
       });
     } catch (error: any) {
-      toast.error("Aлдаа: " + error.response.data.message);
+      const errorMessage = error.response?.data?.message || error.message || "Сервертэй холбогдоход алдаа гарлаа";
+      toast.error("Aлдаа: " + errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -9,7 +9,7 @@ export const uploadFile = async (
   try {
     console.log("File", req.file);
     const result = await cloudinary.uploader.upload(req.file?.path!);
-    res.send("amjilttai =>" + result.secure_url);
+    res.json({ url: result.secure_url, message: "amjilttai" });
   } catch (error) {
     next(error);
   }

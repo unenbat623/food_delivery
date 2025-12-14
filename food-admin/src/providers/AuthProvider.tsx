@@ -25,8 +25,8 @@ interface IAuthProps {
 export const AuthContext = createContext<IAuthProps>({
   user: null,
   token: null,
-  setAuthUserAndToken: (user: UserType, token: string): void => {},
-  logout: (): void => {},
+  setAuthUserAndToken: (user: UserType, token: string): void => { },
+  logout: (): void => { },
 });
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -35,7 +35,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [token, setToken] = useState<string | null>(null);
 
   const authUser = () => {
-    if (localStorage.getItem("auth-user")) {
+    if (typeof window !== 'undefined' && localStorage.getItem("auth-user")) {
       console.log("O", JSON.parse(localStorage.getItem("auth-user")!));
       setUser(() => JSON.parse(localStorage.getItem("auth-user")!));
       setToken(() => localStorage.getItem("auth-token"));
@@ -49,16 +49,20 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const setAuthUserAndToken = (user: UserType, token: string) => {
-    localStorage.setItem("auth-token", token);
-    localStorage.setItem("auth-user", JSON.stringify(user));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("auth-token", token);
+      localStorage.setItem("auth-user", JSON.stringify(user));
+    }
     setUser(user);
     setToken(token);
     router.push("/dashboard");
   };
 
   const logout = () => {
-    localStorage.removeItem("auth-token");
-    localStorage.removeItem("auth-user");
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("auth-token");
+      localStorage.removeItem("auth-user");
+    }
     setUser(null);
     setToken(null);
     router.push("/login");

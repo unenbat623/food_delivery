@@ -2,7 +2,7 @@
 
 import { Button, Input } from "@/components";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
 import React, { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 
@@ -16,7 +16,7 @@ interface IStepProps {
 const StepTwo = ({ email, otp, handleNext, handleChangeInput }: IStepProps) => {
   const handleSendOtp = async () => {
     try {
-      const data = await axios.post("http://localhost:8080/verify/otp", {
+      const data = await instanceAxios.post("/verify/otp", {
         email,
         otp,
       });

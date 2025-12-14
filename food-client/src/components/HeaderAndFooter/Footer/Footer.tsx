@@ -30,84 +30,87 @@ const linkButtons = [
 const Footer = () => {
   return (
     <Box
-      padding={1}
       sx={{
         backgroundColor: "#18BA51",
-        height: "545px",
-        position: "relative",
+        color: "white",
+        py: 8,
+        px: 2,
+        mt: 'auto',
       }}
-      zIndex={-1000}
     >
-      <Container>
-        <Box
-          color={"white"}
-          padding={20}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-            justifyContent: "center",
-          }}
-        >
+      <Container maxWidth="xl">
+        <Stack spacing={6} alignItems="center">
+          {/* Logo Section */}
           <Stack
-            gap={3}
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"center"}
+            direction="row"
+            alignItems="center"
+            spacing={2}
           >
             <Logo />
-            <Typography variant="h5" style={{ fontWeight: 600 }}>
+            <Typography variant="h5" fontWeight={600} color="white">
               Food Delivery
             </Typography>
           </Stack>
-          <List sx={{ display: "flex" }}>
-            {navLinks.map((list, index) => (
-              <ListItemButton
-                key={index}
-                sx={{ textAlign: "center" }}
-                onClick={() => console.log(`clicked on ${list.text}`)}
-              >
-                <Link href={list.href} style={{ color: "#ffffff" }}>
-                  {list.text}
-                </Link>
-              </ListItemButton>
-            ))}
-          </List>
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={3}
-          >
-            {linkButtons.map((link, idx) => (
-              <span key={idx}>{link.icon}</span>
-            ))}
-          </Stack>
-          <Divider sx={{ backgroundColor: "white", borderWidth: "1px" }} />
+
+          {/* Navigation Links */}
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: 4,
             }}
           >
-            <Typography>&copy; 2024 Pinecone Foods LLC</Typography>
-            <Typography>Зохиогчийн эрх хуулиар хамгаалагдсанв</Typography>
+            {navLinks.map((list, index) => (
+              <Link
+                key={index}
+                href={list.href}
+                style={{
+                  color: "white",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "4px",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                }}
+              >
+                {list.text}
+              </Link>
+            ))}
           </Box>
-        </Box>
+
+          {/* Social Icons */}
+          <Stack direction="row" spacing={3}>
+            {linkButtons.map((link, idx) => (
+              <Box
+                key={idx}
+                component="a"
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  color: "white",
+                  transition: "transform 0.2s",
+                  "&:hover": { transform: "scale(1.1)" },
+                }}
+              >
+                {link.icon}
+              </Box>
+            ))}
+          </Stack>
+
+          <Divider sx={{ width: "100%", borderColor: "rgba(255,255,255,0.3)" }} />
+
+          {/* Copyright */}
+          <Box sx={{ textAlign: "center", opacity: 0.9 }}>
+            <Typography variant="body2" gutterBottom>
+              &copy; 2024 Pinecone Foods LLC
+            </Typography>
+            <Typography variant="body2">
+              Зохиогчийн эрх хуулиар хамгаалагдсан
+            </Typography>
+          </Box>
+        </Stack>
       </Container>
-      <Box
-        zIndex={-100}
-        sx={{
-          position: "absolute",
-          height: "100%",
-          width: "99%",
-          top: 0,
-          backgroundImage: `url(pattern.svg)`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      ></Box>
     </Box>
   );
 };

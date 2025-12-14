@@ -3,7 +3,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 import Iconify from "@/components/iconify";
 // ----------------------------------------------------------------------
-export default function PostSearch({ categories }: any) {
+export default function PostSearch({ categories, onSearch }: any) {
   return (
     <Autocomplete
       sx={{ width: 280 }}
@@ -20,8 +20,11 @@ export default function PostSearch({ categories }: any) {
         },
       }}
       options={categories}
-      getOptionLabel={(post: any) => post.title}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      getOptionLabel={(post: any) => post.name}
+      isOptionEqualToValue={(option, value) => option._id === value._id}
+      onInputChange={(event, newInputValue) => {
+        onSearch(newInputValue);
+      }}
       renderInput={(params) => (
         <TextField
           {...params}

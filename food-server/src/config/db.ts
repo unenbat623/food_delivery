@@ -6,6 +6,7 @@ export const connectDB = async (uri: string) => {
     await mongoose.connect(uri);
     console.log(color.bgGreen("холбогдлоо MongoDB-д."));
   } catch (error) {
-    console.log(color.bgRed("Database холболтонд алдаа гарлаа."));
+    console.log(color.bgRed("Database холболтонд алдаа гарлаа."), error);
+    throw error;
   }
 };

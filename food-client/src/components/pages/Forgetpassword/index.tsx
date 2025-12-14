@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from "react";
 import { Container } from "@mui/material";
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
 import { toast } from "react-toastify";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
@@ -18,7 +18,7 @@ const MyStepper = () => {
 
   const handleNext = async () => {
     try {
-      const data = await axios.post("http://localhost:8080/verify/send-email", {
+      const data = await instanceAxios.post("/verify/send-email", {
         email: user.email,
       });
       setActiveStep((prev) => prev + 1);

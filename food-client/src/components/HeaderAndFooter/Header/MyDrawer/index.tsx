@@ -12,7 +12,10 @@ import {
 } from "@mui/material";
 import { Remove, Add, Close } from "@mui/icons-material";
 import Link from "next/link";
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
+
+// NOTE: This is a mock/placeholder component with hardcoded data
+// TODO: Connect to real basket data from BasketProvider
 
 const style = {
   width: 538,
@@ -31,31 +34,27 @@ export const DrawerCard = () => {
   const [count, setCount] = React.useState(1);
   const [sum, setSum] = React.useState(0);
 
-  React.useEffect(() => {
-    const fetchSumData = async () => {
-      try {
-        const response = await axios.get("your-api-endpoint");
-        setSum(response.data.sum);
-      } catch (error) {
-        console.error("Error fetching sum data:", error);
-      }
-    };
+  // Commented out - placeholder endpoint not implemented
+  // React.useEffect(() => {
+  //   const fetchSumData = async () => {
+  //     try {
+  //       const response = await instanceAxios.get("your-api-endpoint");
+  //       setSum(response.data.sum);
+  //     } catch (error) {
+  //       console.error("Error fetching sum data:", error);
+  //     }
+  //   };
+  //   fetchSumData();
+  // }, []);
 
-    fetchSumData();
-  }, []);
 
-  const changeOnclick = () => {
-    setSum(sum + 10);
-  };
   const handleCount = (operation: string) => {
     if (operation === "zero") {
       setCount(count + 0);
-    } else operation === "add";
-    {
+    } else if (operation === "add") {
       setCount(count + 1);
-    }
-    if (operation === "min") {
-      if (count == 0) {
+    } else if (operation === "min") {
+      if (count === 0) {
         setCount(0);
       } else {
         setCount(count - 1);

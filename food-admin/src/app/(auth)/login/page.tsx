@@ -21,7 +21,8 @@ import { bgGradient } from "@/theme/css";
 
 import Logo from "@/components/logo";
 import Iconify from "@/components/iconify";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import instanceAxios from "@/utils/axios";
 import { UserType, AuthContext } from "@/providers";
 import { toast } from "react-toastify";
 
@@ -37,7 +38,7 @@ export default function LoginView() {
     try {
       const {
         data: { user, token },
-      } = (await axios.post("http://localhost:8080/auth/login", {
+      } = (await instanceAxios.post("/auth/login", {
         userEmail,
         userPassword,
       })) as {
@@ -47,7 +48,8 @@ export default function LoginView() {
       console.log(token, user);
       setAuthUserAndToken(user, token);
     } catch (error: any) {
-      toast.error("Aлдаа: " + error.response.data.message);
+      const errorMessage = error.response?.data?.message || error.message || "Сервертэй холбогдоход алдаа гарлаа";
+      toast.error("Aлдаа: " + errorMessage);
     }
   };
 
@@ -94,15 +96,14 @@ export default function LoginView() {
         justifyContent="flex-end"
         sx={{ my: 3 }}
       >
-        <Link
-          href={"/forget-password"}
-          passHref
-          style={{ textDecoration: "none" }}
+        <MuiLink
+          component={Link}
+          href="/forget-password"
+          variant="subtitle2"
+          underline="hover"
         >
-          <MuiLink variant="subtitle2" underline="hover">
-            Нууц үг сэргээх?
-          </MuiLink>
-        </Link>
+          Нууц үг сэргээх?
+        </MuiLink>
       </Stack>
 
       <LoadingButton

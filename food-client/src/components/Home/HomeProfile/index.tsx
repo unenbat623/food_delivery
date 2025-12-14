@@ -9,7 +9,7 @@ const HomeProfile = () => {
     <Stack
       width="100vw"
       height="40vw"
-      sx={{ background: "#18BA51", position: "relative" }}
+      sx={{ background: "#16a34a", position: "relative" }}
     >
       <Image
         alt=""

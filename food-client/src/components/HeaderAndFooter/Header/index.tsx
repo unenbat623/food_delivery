@@ -23,8 +23,13 @@ import { Logo } from "@/components/Logos";
 import Link from "next/link";
 import MyDrawer from "./Drawer";
 
-const pages = ["НҮҮР", "ХООЛНЫ ЦЭС", "ХҮРГЭЛТИЙН БҮС"];
-const settings = ["Профайл", "Тохиргоо", , "Гарах"];
+const pages = [
+  { label: "НҮҮР", href: "/" },
+  { label: "ХООЛНЫ ЦЭС", href: "/menu" },
+  { label: "ХҮРГЭЛТИЙН БҮС", href: "/delivery" },
+];
+
+const settings = ["Профайл", "Тохиргоо", "Гарах"];
 
 export const Header = () => {
   const [drawer, setDrawer] = useState(false);
@@ -65,7 +70,7 @@ export const Header = () => {
             <IconButton
               size="large"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{ color: "black" }}
             >
               <MenuIcon />
             </IconButton>
@@ -88,29 +93,32 @@ export const Header = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                  <Link href={page.href} style={{ textDecoration: "none", color: "black", width: "100%" }}>
+                    <Typography textAlign="center">{page.label}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, alignItems: "center" }}>
             {pages.map((page) => (
               <Link
-                key={page}
-                onClick={handleCloseNavMenu}
-                href={"/"}
+                key={page.label}
+                href={page.href}
                 style={{
                   color: "black",
                   textDecoration: "none",
                   margin: "auto 8px",
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  padding: "8px 16px",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  padding: "6px 12px",
+                  borderRadius: "8px",
+                  transition: "all 0.2s",
                 }}
               >
-                {page}
+                {page.label}
               </Link>
             ))}
           </Box>
@@ -136,7 +144,7 @@ export const Header = () => {
             sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow: 0 }}
           >
             <Box sx={{ px: 2 }}>
-              <IconButton onClick={handleOpenDrawer} color="inherit">
+              <IconButton onClick={handleOpenDrawer} sx={{ color: "black" }}>
                 <ShoppingBasketOutlinedIcon fontSize="medium" />
                 <span
                   style={{
@@ -152,19 +160,21 @@ export const Header = () => {
               <MyDrawer open={drawer} handleClose={handleCloseDrawer} />
             </Box>
             <Box sx={{ px: 2 }}>
-              <IconButton color="inherit" href="/login">
-                <PersonOutlineOutlinedIcon fontSize="medium" />
-                <span
-                  style={{
-                    display: "inline-block",
-                    marginLeft: "8px",
-                    fontSize: "1rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Нэвтрэх
-                </span>
-              </IconButton>
+              <Link href="/login" style={{ textDecoration: "none" }}>
+                <IconButton sx={{ color: "black" }}>
+                  <PersonOutlineOutlinedIcon fontSize="medium" />
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginLeft: "8px",
+                      fontSize: "1rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Нэвтрэх
+                  </span>
+                </IconButton>
+              </Link>
             </Box>
 
             {user && (
@@ -197,8 +207,8 @@ export const Header = () => {
               ))}
             </Menu>
           </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+        </Toolbar >
+      </Container >
+    </AppBar >
   );
 };

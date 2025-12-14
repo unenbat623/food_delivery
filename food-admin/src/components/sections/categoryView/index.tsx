@@ -9,12 +9,12 @@ import Typography from "@mui/material/Typography";
 import Iconify from "@/components/iconify";
 
 import CategoryCard from "./category-card";
-import CategorySort from "./category-sort";
 import CategorySearch from "./category-search";
 
 import CategoryModal from "@/components/categoryModal";
 import { ChangeEvent, useEffect, useState } from "react";
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
+import { toast } from "react-toastify";
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +22,7 @@ export default function CategoryView() {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState<{}[]>([]);
   const [file, setFile] = useState<File | null>(null);
+  const [filterName, setFilterName] = useState("");
 
   const [newCategory, setNewCategory] = useState({
     name: "",
@@ -47,35 +48,48 @@ export default function CategoryView() {
 
   const createCategory = async () => {
     try {
-      const formData = new FormData();
-      formData.set("image", file!);
-      formData.set("name", newCategory.name);
-      formData.set("description", newCategory.description);
+      let imageUrl = "";
+      if (file) {
+        const formData = new FormData();
+        formData.append("image", file);
+        const { data } = await instanceAxios.post("/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        imageUrl = data.url;
+      }
+
       const token = localStorage.getItem("token");
 
       const {
         data: { category },
-      } = (await axios.post("http://localhost:8080/categories", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })) as {
-        data: { category: object };
+      } = (await instanceAxios.post(
+        "/categories",
+        { ...newCategory, image: imageUrl },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )) as {
+        data: { category: any };
       };
 
-      setCategories((prevCat) => [...prevCat, categories]);
-      console.log("Success Add Category");
+      setCategories((prevCat) => [...prevCat, category]);
+      toast.success("Ангилал амжилттай нэмэгдлээ");
+      handleClose();
+      setNewCategory({ name: "", description: "" });
+      setFile(null);
     } catch (error: any) {
-      alert("Add Error - " + error.message);
+      toast.error(error.response?.data?.message || "Ангилал нэмэхэд алдаа гарлаа");
     }
   };
 
   const getCategory = async () => {
     try {
-      const token = localStorage.getItem("auth-token");
+      const token = localStorage.getItem("token");
       const {
         data: { categories },
-      } = (await axios.get("http://localhost:8080/categories", {
+      } = (await instanceAxios.get("/categories", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,9 +98,17 @@ export default function CategoryView() {
       };
       setCategories(categories);
     } catch (error: any) {
-      alert("Get Error - " + error.message);
+      toast.error(error.response?.data?.message || "Ангилал татахад алдаа гарлаа");
     }
   };
+
+  const handleSearch = (name: string) => {
+    setFilterName(name);
+  };
+
+  const filteredCategories = categories.filter((category: any) =>
+    category.name.toLowerCase().includes(filterName.toLowerCase())
+  );
 
   useEffect(() => {
     getCategory();
@@ -111,23 +133,11 @@ export default function CategoryView() {
           Шинэ ангилал
         </Button>
       </Stack>
-      {/* <Stack
-        mb={5}
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <CategorySearch categories={categories} />
-        <CategorySort
-          options={[
-            { value: "latest", label: "Cүүлийнх" },
-            { value: "popular", label: "Түгээмэл" },
-            { value: "oldest", label: "Өмнөх" },
-          ]}
-        />
-      </Stack> */}
+      <Stack mb={5}>
+        <CategorySearch categories={categories} onSearch={handleSearch} />
+      </Stack>
       <Grid container spacing={3}>
-        {categories?.map((category: any) => (
+        {filteredCategories?.map((category: any) => (
           <CategoryCard key={category._id} category={category} />
         ))}
       </Grid>

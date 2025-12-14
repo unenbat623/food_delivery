@@ -1,16 +1,14 @@
 "use client";
 
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export const BasketContext = createContext({} as object);
 
-const token =
-  "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ";
-
 const createReq = async (url: string, foodItem: any) => {
-  const { data } = (await axios.post(url, foodItem, {
+  const token = localStorage.getItem("token");
+  const { data } = (await instanceAxios.post(url, foodItem, {
     headers: { Authorization: `Bearer ${token}` },
   })) as {
     data: any;
@@ -26,14 +24,14 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
     console.log("Food", foodItem);
     try {
       const { basket, message } = await createReq(
-        "http://localhost:8080/basket",
+        "/basket",
         foodItem
       );
       console.log("RES", basket);
       setBasket({ ...basket });
       toast.success(message);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Сагсанд нэмэхэд алдаа гарлаа");
     }
   };
 
@@ -41,21 +39,22 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
     console.log("Food", foodItem);
     try {
       const { basket } = await createReq(
-        "http://localhost:8080/basket",
+        "/basket",
         foodItem
       );
       console.log("RES", basket);
       setBasket({ ...basket });
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Сагс шинэчлэхэд алдаа гарлаа");
     }
   };
 
   const deleteFoodFromBasket = async (foodId: string) => {
     console.log("Food", foodId);
     try {
-      const { data } = await axios.delete(
-        `http://localhost:8080/basket/${foodId}`,
+      const token = localStorage.getItem("token");
+      const { data } = await instanceAxios.delete(
+        `/basket/${foodId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -63,13 +62,14 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       console.log("RES", data?.basket);
       setBasket({ ...data?.basket });
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Сагснаас устгахад алдаа гарлаа");
     }
   };
 
   const getFoodBasket = async () => {
     try {
-      const { data } = (await axios.get("http://localhost:8080/basket", {
+      const token = localStorage.getItem("token");
+      const { data } = (await instanceAxios.get("/basket", {
         headers: { Authorization: `Bearer ${token}` },
       })) as {
         data: any;
@@ -78,7 +78,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       setBasket({ ...data?.basket });
       toast.success(data.message);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Сагс татахад алдаа гарлаа");
     }
   };
 

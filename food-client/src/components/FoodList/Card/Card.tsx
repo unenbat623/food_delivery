@@ -12,7 +12,7 @@ interface IFoodProps {
   food: {
     name: string;
     price: number;
-    img: string;
+    image: string;
   };
 }
 
@@ -23,7 +23,7 @@ const FoodCard = ({ food }: IFoodProps) => {
         <CardMedia
           component="img"
           height="100%"
-          image={food.img || "/assets/images/food_back.png"}
+          image={food.image || "/assets/images/food_back.png"}
           alt="green iguana"
         />
         <CardContent>

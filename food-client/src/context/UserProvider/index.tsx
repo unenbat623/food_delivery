@@ -1,15 +1,27 @@
 "use client";
 
 import { PropsWithChildren, createContext, useState } from "react";
-import axios from "axios";
+import instanceAxios from "@/utils/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+
+// Add IOrder interface
+export interface IOrder {
+  _id: string;
+  createdAt: string;
+  totalAmount: number;
+  payment?: {
+    paymentAmount: number;
+    paymentStatus: string;
+  };
+}
 
 interface IUser {
   name: string;
   email: string;
   address: string;
   password?: string;
+  orders?: IOrder[];
 }
 
 interface IUserContext {
@@ -30,8 +42,8 @@ export const UserContext = createContext<IUserContext>({
     email: "",
     address: "",
   },
-  login: () => {},
-  signup: () => {},
+  login: () => { },
+  signup: () => { },
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
@@ -46,15 +58,22 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const login = async (email: string, password: string) => {
     console.log("LOGIN", email);
     try {
-      const data = await axios.post("http://localhost:8080/auth/login", {
+      const {
+        data: { user, token },
+      } = (await instanceAxios.post("/auth/login", {
         userEmail: email,
         userPassword: password,
-      });
+      })) as {
+        data: { user: IUser; token: string };
+      };
+
+      localStorage.setItem("token", token);
+      setUser(user);
       router.push("/");
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error);
-      toast.error("Email илгэээхэд алдаа гарлаа.");
+      toast.error("Нэвтрэхэд алдаа гарлаа.");
     }
   };
 
@@ -67,7 +86,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   ) => {
     console.log("signup", email, password, address, name);
     try {
-      const data = await axios.post("http://localhost:8080/auth/signup", {
+      const data = await instanceAxios.post("/auth/signup", {
         name: name,
         email: email,
         address: address,

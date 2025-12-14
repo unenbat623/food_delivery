@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+import Grid from "@mui/material/Grid";
 
 const StateCards = [
   {
@@ -33,56 +34,52 @@ export default function HomeHeader() {
   return (
     <Box
       sx={{
-        display: "flex",
         width: "100%",
-        height: 130,
-        marginTop: 3,
-        marginBottom: 4,
-        justifyContent: "center",
-        gap: "60px",
-        borderRadius: "16px",
+        my: 4,
+        px: 2,
       }}
     >
-      {StateCards.map((Card, index) => (
-        <Box
-          sx={{
-            p: 2,
-
-            maxWidth: 300,
-            maxHeight: 130,
-            boxShadow: 3,
-            gap: "15px",
-            borderRadius: "16px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              direction: "row",
-              justifyContent: "space-between",
-              alignItems: "start",
-            }}
-          >
-            <Typography
-              variant="h5"
-              marginTop={3}
-              marginLeft={2}
-              sx={{ color: "#18BA51" }}
+      <Grid container spacing={3} justifyContent="center">
+        {StateCards.map((Card, index) => (
+          <Grid key={index} item xs={12} sm={6} md={3}>
+            <Box
+              sx={{
+                p: 2,
+                height: "100%",
+                minHeight: 130,
+                boxShadow: 3,
+                borderRadius: "16px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                bgcolor: "background.paper",
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                },
+              }}
             >
-              {Card.image}
-            </Typography>
-          </Box>
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{ color: "#18BA51", mb: 2 }}
+                >
+                  {Card.image}
+                </Typography>
+              </Box>
 
-          <Box sx={{ p: 2 }}>
-            <Typography fontSize={17} fontWeight={900}>
-              {Card.top}
-            </Typography>
-            <Typography fontSize={13} color="text.secondary">
-              {Card.bottom}
-            </Typography>
-          </Box>
-        </Box>
-      ))}
+              <Box>
+                <Typography fontSize={17} fontWeight={900} gutterBottom>
+                  {Card.top}
+                </Typography>
+                <Typography fontSize={13} color="text.secondary">
+                  {Card.bottom}
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 }
