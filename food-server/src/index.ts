@@ -37,6 +37,10 @@ app.get("/", (req: Request, res: Response) => {
   res.send("<h1>Food Delivery</h1>");
 });
 
+// ... existing imports ...
+
+// ... existing app setup ...
+
 app.use(errorHandler);
 
 const startServer = async () => {
@@ -50,4 +54,8 @@ const startServer = async () => {
   }
 };
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+}
+
+export default app;
