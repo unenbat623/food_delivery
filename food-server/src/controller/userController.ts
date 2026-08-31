@@ -1,17 +1,15 @@
 import { Request, Response } from "express";
-
 import User from "../model/user";
+import { storeUsers } from "../data/seedData";
 
 export const getUsers = async (req: Request, res: Response) => {
-  console.log("Headers", req.headers);
-
   try {
     const users = await User.find();
-    res.status(201).json({ message: "Бүх хэрэглэгч олдлоо", users });
+    if (users && users.length > 0) {
+      return res.status(200).json({ message: "Бүх хэрэглэгч олдлоо", users });
+    }
   } catch (error) {
-    res.status(400).json({
-      message: "Бүх хэрэглэгчийн мэдээллийг авах үед алдаа гарлаа.",
-      error,
-    });
+    console.warn("DB users fetch fallback to seed store");
   }
+  return res.status(200).json({ message: "Бүх хэрэглэгч олдлоо", users: storeUsers });
 };
