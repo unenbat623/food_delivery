@@ -1,7 +1,6 @@
 "use client";
 
 import { useContext, useState } from "react";
-
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
@@ -10,46 +9,35 @@ import { alpha } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "@/providers";
-
-export const account = {
-  displayName: "Aдмин",
-  email: "admin@gmail.com",
-  photoURL: "/assets/images/avatars/avatar_25.jpg",
-  role: "admin",
-};
-
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-  {
-    label: "Нүүр",
-    icon: "eva:home-fill",
-  },
-  {
-    label: "Профайл",
-    icon: "eva:person-fill",
-  },
-  {
-    label: "Тохиргоо",
-    icon: "eva:settings-2-fill",
-  },
-];
-
-// ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const [open, setOpen] = useState<HTMLElement | null>(null);
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const router = useRouter();
 
   const handleOpen = (event: any) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
-    logout();
     setOpen(null);
   };
+
+  const handleNavigate = (path: string) => {
+    setOpen(null);
+    router.push(path);
+  };
+
+  const handleLogout = () => {
+    setOpen(null);
+    logout();
+  };
+
+  const displayName = user?.name || "Админ";
+  const displayEmail = user?.email || "batbaatarunenbat20@gmail.com";
+  const photoURL = user?.avatarUrl || "/assets/images/avatars/avatar_25.jpg";
 
   return (
     <>
@@ -68,15 +56,15 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={photoURL}
+          alt={displayName}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {displayName.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -91,36 +79,43 @@ export default function AccountPopover() {
             p: 0,
             mt: 1,
             ml: 0.75,
-            width: 200,
+            width: 220,
+            borderRadius: 2,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
           },
         }}
       >
         <Box sx={{ my: 1.5, px: 2 }}>
-          <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+          <Typography variant="subtitle2" noWrap fontWeight={700}>
+            {displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {account.email}
+            {displayEmail}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={() => handleNavigate("/dashboard")}>
+          Дашбоард
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigate("/order")}>
+          Захиалгууд
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigate("/food")}>
+          Хоолны цэс
+        </MenuItem>
+        <MenuItem onClick={() => handleNavigate("/user")}>
+          Хэрэглэгчид
+        </MenuItem>
 
         <Divider sx={{ borderStyle: "dashed", m: 0 }} />
 
         <MenuItem
-          disableRipple
-          disableTouchRipple
-          onClick={handleClose}
-          sx={{ typography: "body2", color: "error.main", py: 1.5 }}
+          onClick={handleLogout}
+          sx={{ typography: "body2", color: "error.main", py: 1.5, fontWeight: 600 }}
         >
-          Гарах
+          Гарах (Logout)
         </MenuItem>
       </Popover>
     </>

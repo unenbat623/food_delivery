@@ -16,12 +16,12 @@ const navConfig = [
     icon: icon("ic_analytics"),
   },
   {
-    title: "Хэрэглэгчид",
-    path: "/user",
-    icon: icon("ic_user"),
+    title: "Захиалгууд",
+    path: "/order",
+    icon: icon("ic_lock"),
   },
   {
-    title: "Хоол",
+    title: "Хоолны цэс",
     path: "/food",
     icon: icon("ic_cart"),
   },
@@ -31,29 +31,9 @@ const navConfig = [
     icon: icon("ic_blog"),
   },
   {
-    title: "Захиалга",
-    path: "/order",
-    icon: icon("ic_lock"),
-  },
-  {
-    title: "Холбоо барих",
-    path: "/contact",
+    title: "Хэрэглэгчид",
+    path: "/user",
     icon: icon("ic_user"),
-  },
-  {
-    title: "Үйлчилгээний нөхцөл",
-    path: "/terms",
-    icon: icon("ic_blog"),
-  },
-  {
-    title: "Хүргэлтийн бүс",
-    path: "/delivery-area",
-    icon: icon("ic_cart"),
-  },
-  {
-    title: "Нууцлалын бодлого",
-    path: "/privacy",
-    icon: icon("ic_lock"),
   },
 ];
 

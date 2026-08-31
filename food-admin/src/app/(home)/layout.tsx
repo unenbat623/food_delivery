@@ -18,12 +18,19 @@ const Layout = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [openNav, setOpenNav] = useState(false);
   const { user } = useContext(AuthContext);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!user) {
+    setMounted(true);
+    const storedUser = typeof window !== "undefined" ? localStorage.getItem("auth-user") : null;
+    if (!user && !storedUser) {
       router.push("/login");
     }
-  }, []);
+  }, [user, router]);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <>
