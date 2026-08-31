@@ -1,24 +1,21 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
-import { faker } from "@faker-js/faker";
 
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
-import AppTasks from "./app-tasks";
-import AppNewsUpdate from "./app-news-update";
 import AppOrderTimeline from "./app-order-timeline";
 import AppCurrentVisits from "./app-current-visits";
 import AppWebsiteVisits from "./app-website-visits";
 import AppWidgetSummary from "./app-widget-summary";
-import AppTrafficBySite from "./app-traffic-by-site";
-import AppCurrentSubject from "./app-current-subject";
-import AppConversionRates from "./app-conversion-rates";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import Link from "next/link";
 import instanceAxios from "@/utils/axios";
+import Iconify from "@/components/iconify";
 
 export default function AppView() {
   const { user } = useContext(AuthContext);
@@ -26,6 +23,7 @@ export default function AppView() {
     totalRevenue: 2450000,
     totalUsers: 148,
     totalOrders: 324,
+    totalFoods: 17,
   });
 
   useEffect(() => {
@@ -36,7 +34,7 @@ export default function AppView() {
           setStats(response.data.stats);
         }
       } catch (error) {
-        console.error("Failed to fetch dashboard stats:", error);
+        console.warn("Using dashboard stats:", error);
       }
     };
     fetchStats();
@@ -44,9 +42,40 @@ export default function AppView() {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5, fontWeight: "bold", color: "text.primary" }}>
-        Сайн уу, Тавтай морил - {user?.name || "Админ"} 👋
-      </Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 4 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: "text.primary" }}>
+            Сайн уу, {user?.name || "Админ"}! 👋
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Өнөөдрийн байдлаарх рестораны нийт үзүүлэлт болон борлуулалтын тойм
+          </Typography>
+        </Box>
+
+        <Stack direction="row" spacing={1.5}>
+          <Button
+            component={Link}
+            href="/food"
+            variant="contained"
+            color="primary"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            sx={{ borderRadius: 2, fontWeight: 700 }}
+          >
+            Хоол нэмэх
+          </Button>
+
+          <Button
+            component={Link}
+            href="/category"
+            variant="outlined"
+            color="inherit"
+            startIcon={<Iconify icon="eva:folder-add-fill" />}
+            sx={{ borderRadius: 2, fontWeight: 700 }}
+          >
+            Ангилал нэмэх
+          </Button>
+        </Stack>
+      </Stack>
 
       <Grid container spacing={3}>
         {/* Statistics Cards */}
@@ -61,9 +90,9 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Нийт хэрэглэгчид"
+            title="Бүртгэлтэй хэрэглэгчид"
             total={stats.totalUsers}
-            color="primary"
+            color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
         </Grid>
@@ -79,61 +108,18 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Хүлээгдэж буй"
-            total={12}
+            title="Нийт хоолны төрөл"
+            total={stats.totalFoods}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
-        {/* Quick Actions */}
-        <Grid xs={12}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-            Админ үйлдлүүд
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid>
-              <Link href="/food" style={{ textDecoration: "none" }}>
-                <button
-                  style={{
-                    padding: "10px 20px",
-                    borderRadius: "8px",
-                    background: "#16a34a",
-                    color: "white",
-                    border: "none",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                >
-                  + Хоол нэмэх
-                </button>
-              </Link>
-            </Grid>
-            <Grid>
-              <Link href="/category" style={{ textDecoration: "none" }}>
-                <button
-                  style={{
-                    padding: "10px 20px",
-                    borderRadius: "8px",
-                    background: "#16a34a",
-                    color: "white",
-                    border: "none",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                >
-                  + Ангилал нэмэх
-                </button>
-              </Link>
-            </Grid>
-          </Grid>
-        </Grid>
-
         {/* Charts Section */}
         <Grid xs={12} md={8}>
           <AppWebsiteVisits
-            title="Борлуулалтын график"
-            subheader="(+43%) өнгөрсөн жилээс"
+            title="Борлуулалтын өсөлтийн график"
+            subheader="Сүүлийн 12 сарын захиалгын орлогын хөдөлгөөн (₮)"
             chart={{
               labels: [
                 "01/01/2024",
@@ -147,13 +133,14 @@ export default function AppView() {
                 "09/01/2024",
                 "10/01/2024",
                 "11/01/2024",
+                "12/01/2024",
               ],
               series: [
                 {
-                  name: "Орлого",
+                  name: "Нийт орлого",
                   type: "area",
                   fill: "gradient",
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                  data: [140000, 255000, 310000, 467000, 520000, 643000, 720000, 840000, 956000, 1120000, 1430000, 1850000],
                 },
               ],
             }}
@@ -162,13 +149,13 @@ export default function AppView() {
 
         <Grid xs={12} md={4}>
           <AppCurrentVisits
-            title="Хоолны төрөл"
+            title="Хоолны борлуулалтын хувь"
             chart={{
               series: [
-                { label: "Махан", value: 4344 },
-                { label: "Үндсэн", value: 5435 },
-                { label: "Зууш", value: 1443 },
-                { label: "Цагаан хоол", value: 4443 },
+                { label: "Үндсэн хоол", value: 45 },
+                { label: "Пицца & Бургер", value: 25 },
+                { label: "Салат & Шөл", value: 18 },
+                { label: "Амттан & Уух зүйлс", value: 12 },
               ],
             }}
           />
@@ -177,19 +164,33 @@ export default function AppView() {
         {/* Recent Orders Timeline */}
         <Grid xs={12}>
           <AppOrderTimeline
-            title="Сүүлийн захиалгууд"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: [
-                "Захиалга #1983, 42,000₮",
-                "Захиалга #1984, 12,500₮",
-                "Захиалга #1985 амжилттай хүргэгдлээ",
-                "Шинэ захиалга #XF-2356",
-                "Шинэ захиалга #XF-2346",
-              ][index],
-              type: `order${index + 1}`,
-              time: faker.date.recent(),
-            }))}
+            title="Сүүлийн захиалгын явц"
+            list={[
+              {
+                id: "ord-1",
+                title: "Захиалга #ORD-9842 (Б. Бат-Эрдэнэ) — 58,000₮ [Хүргэгдсэн]",
+                type: "order1",
+                time: new Date(Date.now() - 3600000 * 2),
+              },
+              {
+                id: "ord-2",
+                title: "Захиалга #ORD-9843 (М. Анужин) — 34,500₮ [Хүргэлтэнд]",
+                type: "order2",
+                time: new Date(Date.now() - 3600000 * 5),
+              },
+              {
+                id: "ord-3",
+                title: "Захиалга #ORD-9844 (Т. Тэмүүлэн) — 92,000₮ [Хүлээгдэж буй]",
+                type: "order3",
+                time: new Date(Date.now() - 3600000 * 12),
+              },
+              {
+                id: "ord-4",
+                title: "Захиалга #ORD-9845 (Г. Солонго) — 46,000₮ [Хүлээгдэж буй]",
+                type: "order4",
+                time: new Date(Date.now() - 3600000 * 24),
+              },
+            ]}
           />
         </Grid>
       </Grid>
