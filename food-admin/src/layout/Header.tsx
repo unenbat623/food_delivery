@@ -7,10 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import { useResponsive } from "@/hooks/ui/use-responsive";
-import { bgBlur } from "@/theme/css";
 import Iconify from "@/components/iconify";
 
-// import Searchbar from "./common/searchbar";
 import { NAV, HEADER } from "./config-layout";
 import AccountPopover from "./common/account-popover";
 
@@ -18,7 +16,6 @@ import AccountPopover from "./common/account-popover";
 
 export default function Header({ onOpenNav }: any) {
   const theme = useTheme();
-
   const lgUp = useResponsive("up", "lg");
 
   const renderContent = (
@@ -29,13 +26,9 @@ export default function Header({ onOpenNav }: any) {
         </IconButton>
       )}
 
-      {/* <Searchbar /> */}
-
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        {/* <LanguagePopover /> */}
-        {/* <NotificationsPopover /> */}
         <AccountPopover />
       </Stack>
     </>
@@ -47,9 +40,8 @@ export default function Header({ onOpenNav }: any) {
         boxShadow: "none",
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
-        ...bgBlur({
-          color: theme.palette.background.default,
-        }),
+        bgcolor: "rgba(255, 255, 255, 0.8)",
+        backdropFilter: "blur(6px)",
         transition: theme.transitions.create(["height"], {
           duration: theme.transitions.duration.shorter,
         }),

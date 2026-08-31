@@ -1,9 +1,8 @@
 "use client";
 
-import SignUp from "@/components/pages/Signup";
+import SignupPage from "@/components/pages/Signup";
+import React from "react";
 
-const Page = () => {
-  return <SignUp />;
-};
-
-export default Page;
+export default function Page() {
+  return <SignupPage />;
+}

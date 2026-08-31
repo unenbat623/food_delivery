@@ -1,101 +1,135 @@
 "use client";
 
-import instanceAxios from "@/utils/axios";
-import { PropsWithChildren, createContext, useEffect, useState } from "react";
+import React, { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { IBasketItem, IFood } from "@/types/food";
 
-export const BasketContext = createContext({} as object);
+interface IBasketContext {
+  basket: IBasketItem[];
+  totalPrice: number;
+  totalCount: number;
+  addFoodToBasket: (food: IFood, count?: number) => void;
+  updateFoodToBasket: (foodId: string, count: number) => void;
+  deleteFoodFromBasket: (foodId: string) => void;
+  clearBasket: () => void;
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: (open: boolean) => void;
+}
 
-const createReq = async (url: string, foodItem: any) => {
-  const token = localStorage.getItem("token");
-  const { data } = (await instanceAxios.post(url, foodItem, {
-    headers: { Authorization: `Bearer ${token}` },
-  })) as {
-    data: any;
-  };
-  return { basket: data.basket, message: data.message };
-};
+export const BasketContext = createContext<IBasketContext>({
+  basket: [],
+  totalPrice: 0,
+  totalCount: 0,
+  addFoodToBasket: () => {},
+  updateFoodToBasket: () => {},
+  deleteFoodFromBasket: () => {},
+  clearBasket: () => {},
+  isDrawerOpen: false,
+  setIsDrawerOpen: () => {},
+});
+
+const STORAGE_KEY = "pinecone_food_basket";
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
-  const [basket, setBasket] = useState<{} | null>(null);
-  const [refetch, setRefetch] = useState<boolean>(false);
+  const [basket, setBasket] = useState<IBasketItem[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const addFoodToBasket = async (foodItem: any) => {
-    console.log("Food", foodItem);
-    try {
-      const { basket, message } = await createReq(
-        "/basket",
-        foodItem
-      );
-      console.log("RES", basket);
-      setBasket({ ...basket });
-      toast.success(message);
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Сагсанд нэмэхэд алдаа гарлаа");
-    }
-  };
-
-  const updateFoodToBasket = async (foodItem: any) => {
-    console.log("Food", foodItem);
-    try {
-      const { basket } = await createReq(
-        "/basket",
-        foodItem
-      );
-      console.log("RES", basket);
-      setBasket({ ...basket });
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Сагс шинэчлэхэд алдаа гарлаа");
-    }
-  };
-
-  const deleteFoodFromBasket = async (foodId: string) => {
-    console.log("Food", foodId);
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = await instanceAxios.delete(
-        `/basket/${foodId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log("RES", data?.basket);
-      setBasket({ ...data?.basket });
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Сагснаас устгахад алдаа гарлаа");
-    }
-  };
-
-  const getFoodBasket = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = (await instanceAxios.get("/basket", {
-        headers: { Authorization: `Bearer ${token}` },
-      })) as {
-        data: any;
-      };
-      console.log("RES", data);
-      setBasket({ ...data?.basket });
-      toast.success(data.message);
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Сагс татахад алдаа гарлаа");
-    }
-  };
-
+  // Load basket from localStorage on mount
   useEffect(() => {
-    getFoodBasket();
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        setBasket(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error("Failed to parse basket from localStorage", e);
+    }
+    setIsLoaded(true);
   }, []);
+
+  // Save basket to localStorage whenever it changes
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(basket));
+    }
+  }, [basket, isLoaded]);
+
+  const addFoodToBasket = (food: IFood, count: number = 1) => {
+    if (count <= 0) return;
+    setBasket((prev) => {
+      const index = prev.findIndex((item) => item.food._id === food._id);
+      if (index > -1) {
+        const updated = [...prev];
+        updated[index] = {
+          ...updated[index],
+          count: updated[index].count + count,
+        };
+        return updated;
+      } else {
+        return [...prev, { food, count }];
+      }
+    });
+
+    toast.success(`"${food.name}" амжилттай сагсанд нэмэгдлээ! 🛒`, {
+      position: "top-right",
+      autoClose: 2500,
+    });
+  };
+
+  const updateFoodToBasket = (foodId: string, count: number) => {
+    setBasket((prev) => {
+      if (count <= 0) {
+        return prev.filter((item) => item.food._id !== foodId);
+      }
+      return prev.map((item) =>
+        item.food._id === foodId ? { ...item, count } : item
+      );
+    });
+  };
+
+  const deleteFoodFromBasket = (foodId: string) => {
+    setBasket((prev) => {
+      const itemToDelete = prev.find((item) => item.food._id === foodId);
+      if (itemToDelete) {
+        toast.info(`"${itemToDelete.food.name}" сагснаас хасагдлаа.`, {
+          position: "top-right",
+          autoClose: 2000,
+        });
+      }
+      return prev.filter((item) => item.food._id !== foodId);
+    });
+  };
+
+  const clearBasket = () => {
+    setBasket([]);
+    localStorage.removeItem(STORAGE_KEY);
+  };
+
+  const totalPrice = basket.reduce((sum, item) => {
+    const unitPrice = item.food.isSale && item.food.discountPrice ? item.food.discountPrice : item.food.price;
+    return sum + unitPrice * item.count;
+  }, 0);
+
+  const totalCount = basket.reduce((sum, item) => sum + item.count, 0);
 
   return (
     <BasketContext.Provider
       value={{
         basket,
+        totalPrice,
+        totalCount,
         addFoodToBasket,
         updateFoodToBasket,
         deleteFoodFromBasket,
+        clearBasket,
+        isDrawerOpen,
+        setIsDrawerOpen,
       }}
     >
       {children}
     </BasketContext.Provider>
   );
 };
+
+export const useBasket = () => useContext(BasketContext);

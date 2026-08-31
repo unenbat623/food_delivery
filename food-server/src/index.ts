@@ -16,7 +16,7 @@ import orderRoute from "./router/orderRoute";
 
 import errorHandler from "./middleware/errorHandler";
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT || 8000);
 const MONGO_URI = process.env.MONGO_URI as string;
 
 const app: Application = express();
@@ -34,23 +34,31 @@ app.use("/order", orderRoute);
 app.use("/dashboard", dashboardRouter);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("<h1>Food Delivery</h1>");
+  res.json({
+    status: "ok",
+    message: "Pinecone Food Delivery API is running smoothly 🚀",
+    docs: "/api/health",
+  });
 });
 
-// ... existing imports ...
-
-// ... existing app setup ...
+app.get("/health", (req: Request, res: Response) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
 
 app.use(errorHandler);
 
 const startServer = async () => {
   try {
-    console.log("MONGO_URI:", MONGO_URI);
+    console.log("Connecting to MongoDB:", MONGO_URI || "mongodb://127.0.0.1:27017/food-delivery");
     await connectDB(MONGO_URI || "mongodb://127.0.0.1:27017/food-delivery");
-    app.listen(PORT, () => console.log(color.rainbow("Сервер аслаа. " + PORT)));
+    app.listen(PORT, "0.0.0.0", () =>
+      console.log(color.rainbow(`Сервер амжилттай аслаа: http://localhost:${PORT}`))
+    );
   } catch (error) {
-    console.error("Failed to start server:", error);
-    // process.exit(1); // Optional: exit if critical
+    console.error("Database холболтонд алдаа гарлаа:", error);
+    app.listen(PORT, "0.0.0.0", () =>
+      console.log(color.yellow(`Сервер DB-гүй аслаа: http://localhost:${PORT}`))
+    );
   }
 };
 

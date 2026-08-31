@@ -1,132 +1,215 @@
-import { Button, Input } from "@/components";
+"use client";
+
+import React, { useState } from "react";
 import {
   Box,
-  Checkbox,
   Container,
-  FormControlLabel,
   Stack,
   Typography,
+  TextField,
+  Button,
+  Paper,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
-import * as yup from "yup";
-import React, { useContext } from "react";
-import { UserContext } from "@/context/UserProvider";
-import { useFormik } from "formik";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PhoneIcon from "@mui/icons-material/Phone";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import { useUser } from "@/context/UserProvider";
+import Link from "next/link";
+import { Logo } from "@/components/Logos";
 
-const validationSchema = yup.object({
-  name: yup
-    .string()
-    .max(100, "Нэр хаяг 100 тэмдэгтээч хэтрэхгүй байна.")
-    .required("Нэрийг заавал бөглөнө үү."),
-  email: yup
-    .string()
-    .max(100, "Имэйл хаяг 100 тэмдэгтээч хэтрэхгүй байна.")
-    .required("Имэйл хаягыг заавал бөглөнө үү.")
-    .email("Хүчинтэй имэйл хаяг байх ёстой")
-    .matches(
-      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@gmail[A-Za-z0-9.-]+$/,
-      "Та зөвхөн gmail хаяг оруулна"
-    ),
-  address: yup.string().required("Хаягаа заавал бөглөнө үү."),
-  password: yup
-    .string()
-    .required("Нууц үгээ заавал бөглөнө үү.")
-    .min(6, "Нууц үг хамгийн багадаа . тэмдэгт байх байх ёстой."),
-  repassword: yup
-    .string()
-    .required("Нууц үгээ заавал бөглөнө үү.")
-    .min(6, "Нууц үг хамгийн багадаа . тэмдэгт байх байх ёстой."),
-});
+export const SignupPage = () => {
+  const { signup, isLoading } = useUser();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-const SignupPage = () => {
-  const { signup } = useContext(UserContext);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !password) return;
+    await signup(name, email, address, phone, password, repassword);
+  };
 
-  const formik = useFormik({
-    onSubmit: ({ email, password, address, name, repassword }) => {
-      signup(email, password, address, name, repassword);
-    },
-    initialValues: {
-      name: "",
-      email: "",
-      address: "",
-      password: "",
-      repassword: "",
-    },
-    validateOnChange: false,
-    validateOnBlur: false,
-    validationSchema,
-  });
   return (
-    <Container>
-      <Box
+    <Container maxWidth="sm" sx={{ py: { xs: 6, md: 8 } }}>
+      <Paper
+        elevation={0}
         sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "center",
-          margin: "auto ",
-          px: "2.1rem",
-          maxWidth: "450px",
-          padding: "5rem 0",
+          p: { xs: 3, sm: 5 },
+          borderRadius: "24px",
+          border: "1px solid #f1f5f9",
+          bgcolor: "#ffffff",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.04)",
+          textAlign: "center",
         }}
       >
-        <Typography
-          align="center"
-          gutterBottom
-          sx={{ fontSize: "28px", fontWeight: "700" }}
-        >
+        <Box sx={{ mb: 3 }}>
+          <Logo size={42} />
+        </Box>
+
+        <Typography variant="h4" fontWeight={900} color="#1e293b" gutterBottom>
           Бүртгүүлэх
         </Typography>
-        <Stack width="100%" sx={{ mb: "1rem" }}>
-          <Input
-            name="name"
-            label="Нэр"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            errorText={formik.errors.name}
-          />
-          <Input
-            name="email"
-            label="И-Мэйл"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            errorText={formik.errors.email}
-          />
-          <Input
-            name="address"
-            label="Хаяг"
-            value={formik.values.address}
-            onChange={formik.handleChange}
-            errorText={formik.errors.address}
-          />
-          <Input
-            name="password"
-            label="Нууц үг"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            errorText={formik.errors.password}
-            showPassword
-          />
-          <Input
-            name="repassword"
-            label="Нууц үг давтах"
-            value={formik.values.repassword}
-            onChange={formik.handleChange}
-            errorText={formik.errors.repassword}
-            showPassword
-          />
-        </Stack>
+        <Typography variant="body2" color="#64748b" sx={{ mb: 4 }}>
+          Шинээр бүртгүүлж, амтат хоолоо шуурхай хүргүүлэн аваарай.
+        </Typography>
 
-        <Stack sx={{ mb: "1rem" }}>
-          <FormControlLabel
-            control={<Checkbox name="jason" />}
-            label="Үйлчилгээний нөхцөл зөвшөөрөх"
-          />
-        </Stack>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={2}>
+            <TextField
+              fullWidth
+              label="Таны нэр"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              size="small"
+              placeholder="Бат-Эрдэнэ"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PersonOutlineIcon sx={{ color: "#94a3b8" }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-        <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Бүртгүүлэх" onClick={formik.handleSubmit} />
-        </Stack>
-      </Box>
+            <TextField
+              fullWidth
+              label="Имэйл хаяг"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              size="small"
+              placeholder="example@gmail.com"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailOutlinedIcon sx={{ color: "#94a3b8" }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <TextField
+              fullWidth
+              label="Утасны дугаар"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              size="small"
+              placeholder="99112233"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PhoneIcon sx={{ color: "#94a3b8" }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <TextField
+              fullWidth
+              label="Хүргэлтийн хаяг"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              size="small"
+              placeholder="Сүхбаатар дүүрэг, 1-р хороо..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <HomeOutlinedIcon sx={{ color: "#94a3b8" }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <TextField
+              fullWidth
+              label="Нууц үг"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              size="small"
+              placeholder="••••••••"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOutlinedIcon sx={{ color: "#94a3b8" }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      size="small"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <TextField
+              fullWidth
+              label="Нууц үг давтах"
+              type={showPassword ? "text" : "password"}
+              value={repassword}
+              onChange={(e) => setRepassword(e.target.value)}
+              required
+              size="small"
+              placeholder="••••••••"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOutlinedIcon sx={{ color: "#94a3b8" }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              size="large"
+              disabled={isLoading}
+              sx={{
+                bgcolor: "#18BA51",
+                py: 1.5,
+                mt: 1,
+                borderRadius: "12px",
+                fontSize: "1rem",
+                fontWeight: 700,
+                boxShadow: "0 8px 20px rgba(24, 186, 81, 0.3)",
+                "&:hover": { bgcolor: "#15803d" },
+              }}
+            >
+              {isLoading ? "Бүртгэж байна..." : "Бүртгүүлэх"}
+            </Button>
+          </Stack>
+        </form>
+
+        <Box sx={{ mt: 4, pt: 3, borderTop: "1px solid #f1f5f9" }}>
+          <Typography variant="body2" color="#64748b">
+            Та аль хэдийн бүртгэлтэй юу?{" "}
+            <Link href="/login" style={{ color: "#18BA51", fontWeight: 700, textDecoration: "none" }}>
+              Нэвтрэх
+            </Link>
+          </Typography>
+        </Box>
+      </Paper>
     </Container>
   );
 };

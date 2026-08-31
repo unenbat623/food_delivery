@@ -39,7 +39,7 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState<HTMLElement | null>(null);
   const { logout } = useContext(AuthContext);
 
   const handleOpen = (event: any) => {
@@ -59,10 +59,12 @@ export default function AccountPopover() {
           width: 40,
           height: 40,
           background: (theme) => alpha(theme.palette.grey[500], 0.08),
-          ...(open && {
-            background: (theme) =>
-              `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
-          }),
+          ...(Boolean(open)
+            ? {
+                background: (theme: any) =>
+                  `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+              }
+            : {}),
         }}
       >
         <Avatar
@@ -79,7 +81,7 @@ export default function AccountPopover() {
       </IconButton>
 
       <Popover
-        open={!!open}
+        open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

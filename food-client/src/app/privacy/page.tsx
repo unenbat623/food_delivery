@@ -1,44 +1,60 @@
-import { Container, Typography, Box, Divider } from "@mui/material";
+"use client";
+
+import React from "react";
+import { Container, Typography, Box, Paper, Divider, Stack } from "@mui/material";
 
 export default function PrivacyPage() {
-    return (
-        <Container maxWidth="md" sx={{ py: 8 }}>
-            <Typography variant="h3" sx={{ mb: 4, fontWeight: "bold", color: "primary.main" }}>
-                Privacy Policy
+  return (
+    <Container maxWidth="md" sx={{ py: { xs: 4, md: 8 } }}>
+      <Paper
+        elevation={0}
+        sx={{
+          p: { xs: 3, sm: 5 },
+          borderRadius: "24px",
+          border: "1px solid #f1f5f9",
+          bgcolor: "#ffffff",
+        }}
+      >
+        <Typography variant="h4" fontWeight={900} color="#1e293b" gutterBottom>
+          Нууцлалын бодлого
+        </Typography>
+        <Typography variant="body2" color="#64748b" sx={{ mb: 4 }}>
+          Сүүлд шинэчлэгдсэн: {new Date().getFullYear()} он
+        </Typography>
+
+        <Stack spacing={3}>
+          <Box>
+            <Typography variant="h6" fontWeight={700} color="#1e293b" gutterBottom>
+              1. Мэдээлэл цуглуулалт
             </Typography>
+            <Typography variant="body2" color="#475569" lineHeight={1.7}>
+              Бид таны нэр, имэйл хаяг, утасны дугаар болон хүргэлтийн хаягийн мэдээллийг зөвхөн захиалгыг хүргэх, хэрэглэгчийн үйлчилгээ үзүүлэх зорилгоор аюулгүй цуглуулдаг.
+            </Typography>
+          </Box>
 
-            <Box sx={{ "& > *": { mb: 3 } }}>
-                <Box>
-                    <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                        Information Collection
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                        We collect information you provide directly to us when you create an account, place an order, or contact us for support.
-                    </Typography>
-                </Box>
+          <Divider />
 
-                <Divider />
+          <Box>
+            <Typography variant="h6" fontWeight={700} color="#1e293b" gutterBottom>
+              2. Мэдээллийн аюулгүй байдал
+            </Typography>
+            <Typography variant="body2" color="#475569" lineHeight={1.7}>
+              Таны хувийн мэдээллийг гуравдагч этгээдэд дамжуулахгүй бөгөөд орчин үеийн шифрлэлт, аюулгүй байдлын протоколуудаар найдвартай хамгаалдаг.
+            </Typography>
+          </Box>
 
-                <Box>
-                    <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                        Data Security
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                        We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or disclosure.
-                    </Typography>
-                </Box>
+          <Divider />
 
-                <Divider />
-
-                <Box>
-                    <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                        Your Rights
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                        You have the right to access, update, or delete your personal information at any time through your account settings.
-                    </Typography>
-                </Box>
-            </Box>
-        </Container>
-    );
+          <Box>
+            <Typography variant="h6" fontWeight={700} color="#1e293b" gutterBottom>
+              3. Хэрэглэгчийн эрх
+            </Typography>
+            <Typography variant="body2" color="#475569" lineHeight={1.7}>
+              Та өөрийн мэдээллийг хүссэн үедээ шалгах, өөрчлөх эсвэл системээс устгах хүсэлт гаргах бүрэн эрхтэй.
+            </Typography>
+          </Box>
+        </Stack>
+      </Paper>
+    </Container>
+  );
 }

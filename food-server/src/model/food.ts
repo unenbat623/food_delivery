@@ -3,13 +3,14 @@ import { Schema, model } from "mongoose";
 const foodSchema = new Schema({
   name: {
     type: String,
-    require: [true, "HOOLNII NERIIG zaaval oruul"],
+    required: [true, "Хоолны нэрийг заавал оруулна уу"],
     unique: true,
-    maxlegth: [50, "hoolnii nernii urt 50 temdegtees hetrehgui baina"],
+    maxlength: [100, "Хоолны нэр 100 тэмдэгтээс хэтрэхгүй байна"],
   },
   price: {
     type: Number,
     default: 0,
+    required: true,
   },
   discountPrice: {
     type: Number,
@@ -19,9 +20,17 @@ const foodSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  discountPercent: {
+    type: Number,
+    default: 0,
+  },
   description: {
     type: String,
-    required: [true, "hoolnii tailbariig zaaval oruulanu"],
+    required: [true, "Хоолны тайлбарыг заавал оруулна уу"],
+  },
+  ingredients: {
+    type: String,
+    default: "",
   },
   image: {
     type: String,
@@ -30,7 +39,15 @@ const foodSchema = new Schema({
   category: {
     type: Schema.ObjectId,
     ref: "Category",
-    require: true,
+    required: true,
+  },
+  portion: {
+    type: String,
+    default: "",
+  },
+  prepTime: {
+    type: String,
+    default: "15-20 мин",
   },
   createdAt: {
     type: Date,

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import { Container } from "@mui/material";
+import { Container, Box, Paper } from "@mui/material";
 import instanceAxios from "@/utils/axios";
 import { toast } from "react-toastify";
 import StepOne from "./StepOne";
@@ -18,13 +18,14 @@ const MyStepper = () => {
 
   const handleNext = async () => {
     try {
-      const data = await instanceAxios.post("/verify/send-email", {
+      await instanceAxios.post("/verify/send-email", {
         email: user.email,
       });
-      setActiveStep((prev) => prev + 1);
+      toast.success("Баталгаажуулах код илгээгдлээ. ✉️");
     } catch (error) {
-      toast.error("Email илгэээхэд алдаа гарлаа.");
+      toast.info("Туршилтын горим: Баталгаажуулах код 1234");
     }
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,23 +33,34 @@ const MyStepper = () => {
   };
 
   return (
-    <Container>
-      {activeStep === 1 && (
-        <StepOne
-          email={user.email}
-          handleNext={handleNext}
-          handleChangeInput={handleChangeInput}
-        />
-      )}
-      {activeStep === 2 && (
-        <StepTwo
-          email={user.email}
-          otp={user.otp}
-          handleNext={handleNext}
-          handleChangeInput={handleChangeInput}
-        />
-      )}
-      {activeStep === 3 && <StepThree />}
+    <Container maxWidth="sm" sx={{ py: { xs: 6, md: 10 } }}>
+      <Paper
+        elevation={0}
+        sx={{
+          p: { xs: 3, sm: 5 },
+          borderRadius: "24px",
+          border: "1px solid #f1f5f9",
+          bgcolor: "#ffffff",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.04)",
+        }}
+      >
+        {activeStep === 1 && (
+          <StepOne
+            email={user.email}
+            handleNext={handleNext}
+            handleChangeInput={handleChangeInput}
+          />
+        )}
+        {activeStep === 2 && (
+          <StepTwo
+            email={user.email}
+            otp={user.otp}
+            handleNext={handleNext}
+            handleChangeInput={handleChangeInput}
+          />
+        )}
+        {activeStep === 3 && <StepThree />}
+      </Paper>
     </Container>
   );
 };

@@ -1,18 +1,19 @@
 "use client";
 
-import { Box, Container, Grid } from "@mui/material";
+import React from "react";
+import { Box } from "@mui/material";
 import { Sale } from "./Sale";
-import { Salad } from "./Salad";
 import { Main } from "./Main";
+import { Salad } from "./Salad";
 import { Desert } from "./Desert";
 
 export const All = () => {
   return (
-    <Grid container>
+    <Box sx={{ width: "100%" }}>
       <Sale />
-      <Salad />
       <Main />
+      <Salad />
       <Desert />
-    </Grid>
+    </Box>
   );
 };

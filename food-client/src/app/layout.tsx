@@ -2,10 +2,20 @@ import "./scss/globals.scss";
 import { ThemeProvider } from "@/theme";
 import Footer from "@/components/HeaderAndFooter/Footer/Footer";
 import { UserProvider } from "@/context/UserProvider";
-import { ToastContainer, toast } from "react-toastify";
+import { FoodProvider } from "@/context/FoodProvider";
+import { BasketProvider } from "@/context/BasketProvider";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Header } from "@/components/HeaderAndFooter/Header";
-import { FoodProvider } from "@/context/FoodProvider";
+import ModalBox from "@/components/ModalBox/modalBox";
+
+export const metadata = {
+  title: "Pinecone Food Delivery — Амтат хоол таны үүдэнд",
+  description: "Шилдэг ресторануудын шинэхэн, амтат хоолыг 30 минутын дотор халуунаар нь түргэн шуурхай хүргэнэ.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -13,15 +23,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="mn">
       <body>
         <ThemeProvider>
           <UserProvider>
             <FoodProvider>
-              <ToastContainer />
-              <Header />
-              {children}
-              <Footer />
+              <BasketProvider>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  newestOnTop
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="colored"
+                />
+                <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+                  <Header />
+                  <main style={{ flex: 1 }}>{children}</main>
+                  <ModalBox />
+                  <Footer />
+                </div>
+              </BasketProvider>
             </FoodProvider>
           </UserProvider>
         </ThemeProvider>
